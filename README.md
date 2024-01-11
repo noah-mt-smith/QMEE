@@ -1,1 +1,9 @@
 # QMEE Read Me File
+
+# Assignment 1 dataset description and explicit prediction: 
+
+# I collected this dataset as part of my Fall 2023 experiment. In our first experiments, my supervisor and I tested whether randomly assigned winners performed better than randomly assigned losers in a subsequent, standardized round. Our results suggested that randomly assigned prior winners performed better than randomly assigned prior losers in a subsequent, standardized round (Smith & Dukas, 2024). Our Fall 2023 experiment examined another aspect of winning and losing: how we react to the wins and losses of others. My supervisor and I randomly assigned participants to read one of several possible passages about a dyadic competition (one winner; one loser) between two fictional individuals. After participants read the passage, we asked them to distribute two finite resources (money and coaching hours) between the two competitors. We predicted that participants would favour winners (allocate more money and coaching hours to them) out of a desire to affiliate with the winner. Affiliating with more competent or athletic individuals could be advantageous, especially in the context of our ancestral environments--strong coalitions and good reciprocal trading partners may have been vital to survival and reproduction. To mitigate potential confounds present in the reading passages (such as competitive context, character age, or character names), we randomized participants to 1 of 8 scenarios, each of the 8 being a different combination of scenario type (athletic; academic), character age (elementary; high school), and character and school names (Jamie and East Hills; Morgan and West Lake).  
+
+# We predicted that participants would bias their allocation of both money and coaching hours towards the winner. 
+
+# Smith, N. M., & Dukas, R. (2024). Winner and loser effects in humans: evidence from randomized trials. Animal Behaviour, 207, 101-107.
