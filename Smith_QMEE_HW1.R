@@ -12,3 +12,16 @@
 # (for both proportion of money allocated to winner and proportion of coaching
 # hours allocated to winner).
 
+# import and view dataset
+
+WL.social.data <- read.csv("QMEE_WL_social_data.csv")
+View(WL.social.data)
+
+# One-sample t-test with the null that participants allocate 0.5 of their money to the winner
+
+prop.money.to.winner <- WL.social.data$prop.money.to.winner
+
+prop.money.t.test <- t.test(prop.money.to.winner, mu = 0.5, alternative = "two.sided")
+
+print(prop.money.t.test)
+
