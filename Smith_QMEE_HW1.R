@@ -25,3 +25,10 @@ prop.money.t.test <- t.test(prop.money.to.winner, mu = 0.5, alternative = "two.s
 
 print(prop.money.t.test)
 
+# One-sample t-test with the null that participants allocate 0.5 of their coaching hours to the winner
+
+prop.coaching.to.winner <- WL.social.data$prop.coach.to.winner
+
+prop.coaching.t.test <- t.test(prop.coaching.to.winner, mu = 0.5, alternative = "two.sided")
+
+print(prop.coaching.t.test)
