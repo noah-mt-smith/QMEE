@@ -27,6 +27,9 @@ prop.money.t.test <- t.test(prop.money.to.winner, mu = 0.5, alternative = "two.s
 
 print(prop.money.t.test)
 
+# We reject the null that participants allocate 0.5 of their money to the winner, and our t-statistic is positive, 
+# which indicates that participants allocated significantly more than 0.5 of their money to the winner.
+
 # One-sample t-test with the null that participants allocate 0.5 of their coaching hours to the winner
 
 prop.coaching.to.winner <- WL.social.data$prop.coach.to.winner
@@ -34,3 +37,6 @@ prop.coaching.to.winner <- WL.social.data$prop.coach.to.winner
 prop.coaching.t.test <- t.test(prop.coaching.to.winner, mu = 0.5, alternative = "two.sided")
 
 print(prop.coaching.t.test)
+
+# We reject the null that participants allocate 0.5 of their coaching hours to the winner, and our t-statistic is negative, 
+# which indicates that participants allocated significantly less than 0.5 of their coaching hours to the winner.
