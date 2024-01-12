@@ -1,10 +1,12 @@
 #Noah Smith QMEE HW1
 
-# See "QMEE_WL_social_data.csv" for the dataset used to conduct this one-sample
-# t-test.
+# This script runs from the main repo directory (QMEE)
 
-# Also, see "README.md" for an explanation of how the dataset was collected, 
-# the context of the experiment, and our main explicit predictions. 
+# Additional files
+## See "QMEE_WL_social_data.csv" for the dataset used to conduct this one-sample
+## t-test.
+## See "README.md" for an explanation of how the dataset was collected, 
+## the context of the experiment, and our main explicit predictions. 
 
 # Our prediction was that participants would allocate significantly more 
 # funds and coaching hours to winners than to losers. We can statistically 
