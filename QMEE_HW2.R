@@ -6,7 +6,7 @@ WLdata <- read_csv("QMEE_WL_social_data.csv")
 View(WLdata)
 print(WLdata)
 
-# One clear issue is that the column "participant.gender" includes 
+# One immediate issue is that the column "participant.gender" includes 
 # a total of 170 responses and 5 levels (cisgender man, cisgender woman, 
 # nonbinary, transgender man, and prefer not to say)
 # However, the overwhelming majority of the responses are "cisgender man" 
@@ -51,4 +51,10 @@ print(length(WLdata_cis_only$participant.gender))
 # cisgender responses.
 
 ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
+
+ggplot(WLdata_cis_only, aes(x = comp.context, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
+
+ggplot(WLdata_cis_only, aes(x = comp.context, y = prop.coach.to.winner)) + geom_boxplot() + theme_linedraw()
+
+# academic prop coaching hours is skewed low
 
