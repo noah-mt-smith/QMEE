@@ -57,10 +57,6 @@ problems(WLdata)
 ## the problems() function indicates nothing is wrong or abnormal (no NAs, odd values, etc.)
 
 
-
-
-
-
 # stuff I might add 
 
 ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
