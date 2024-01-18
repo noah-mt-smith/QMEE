@@ -50,6 +50,19 @@ print(length(WLdata_cis_only$participant.gender))
 # we can replot the boxplot using our new dataframe, and we will only see the two 
 # cisgender responses.
 
+## we can also check in general if there are any errors with the dataset
+
+problems(WLdata)
+
+## the problems() function indicates nothing is wrong or abnormal (no NAs, odd values, etc.)
+
+
+
+
+
+
+# stuff I might add 
+
 ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
 
 ggplot(WLdata_cis_only, aes(x = comp.context, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
