@@ -56,8 +56,38 @@ problems(WLdata)
 
 ## the problems() function indicates nothing is wrong or abnormal (no NAs, odd values, etc.)
 
+# we can also check the distributions of our response variables using a histogram
 
-# stuff I might add 
+histo.money.to.winner <- ggplot(WLdata, aes(prop.money.to.winner)) + geom_histogram()
+print(histo.money.to.winner)
+
+# based on this histogram, the "money.to.winner" dependent variable is left skewed, towards the upper bound of 1.
+
+histo.coaching.to.winner <- ggplot(WLdata, aes(prop.coach.to.winner)) + geom_histogram()
+print(histo.coaching.to.winner)
+
+# based on this histogram, the response variable "proportion.coach.to.winner" is right skewed, towards the lower bound of 0.
+
+# we can also observe the normality of these variables using QQ plots, 
+prop.money.to.winner = WLdata$prop.money.to.winner
+qqnorm(y = prop.money.to.winner, main = "QQ plot of proportion money allocated to winner")
+qqline(y = prop.money.to.winner, col = 2)
+
+prop.coach.to.winner = WLdata$prop.coach.to.winner
+qqnorm(y = prop.coach.to.winner, main = "QQ plot of proportion coaching allocated to winner")
+qqline(y = prop.coach.to.winner)
+
+# our money plot deviates slightly from the line, and our coaching plot deviates strongly from the line, indicating that 
+# they might be non-normal. To statistically test this, we can conduct a shapiro-wilks test on the residuals of the two dependent variables
+
+lm_money_to_winner <- lm(prop.money.to.winner ~ winner.name, data = WLdata)
+shapiro.test(residuals(lm_money_to_winner))
+
+lm_coach_to_winner <- lm(prop.coach.to.winner ~ winner.name, data = WLdata)
+shapiro.test(residuals(lm_coach_to_winner))
+
+# According to these shapiro-wilks tests, neither of these response variables are normally distributed, indicating that we should 
+# use non-parametric tests when eventually performing statistical tests on them.
 
 ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
 
@@ -66,4 +96,6 @@ ggplot(WLdata_cis_only, aes(x = comp.context, y = prop.money.to.winner)) + geom_
 ggplot(WLdata_cis_only, aes(x = comp.context, y = prop.coach.to.winner)) + geom_boxplot() + theme_linedraw()
 
 # academic prop coaching hours is skewed low
+
+
 
