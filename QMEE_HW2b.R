@@ -1,4 +1,6 @@
+# first, we load our clean data using readRDS
 
+WLdata_cleaner <- readRDS("WLdata_cleaner.rds")
 
 # Now that our data is a bit more organized, we can do a bit of visualization for fun!
 # first, let's visualize how gender influences the allocation of money. 
