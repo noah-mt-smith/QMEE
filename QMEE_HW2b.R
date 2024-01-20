@@ -1,10 +1,12 @@
 # first, we load our clean data using readRDS
 
 WLdata_cleaner <- readRDS("WLdata_cleaner.rds")
+View(WLdata_cleaner)
 
 # Now that our data is a bit more organized, we can do a bit of visualization for fun!
 # first, let's visualize how gender influences the allocation of money. 
 
+library(tidyverse)
 ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot()
 
 # One immediate issue we see when we visualize is that the boxplots for 
