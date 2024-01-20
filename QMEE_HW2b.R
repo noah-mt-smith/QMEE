@@ -1,3 +1,5 @@
+# NOAH SMITH QMEE HW2b
+
 # first, we load our clean data using readRDS
 
 WLdata_cleaner <- readRDS("WLdata_cleaner.rds")

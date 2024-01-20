@@ -1,4 +1,4 @@
-# Noah Smith QMEE HW2
+# NOAH SMITH QMEE HW2a
 
 library(tidyverse)
 WLdata <- read_csv("QMEE_WL_social_data.csv")
