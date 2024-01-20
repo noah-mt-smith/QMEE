@@ -2,6 +2,9 @@
 
 library(tidyverse)
 WLdata <- read_csv("QMEE_WL_social_data.csv")
+
+# data is also in QMEE repo and directory
+
 View(WLdata)
 print(WLdata)
 
