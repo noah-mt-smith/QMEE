@@ -9,7 +9,7 @@ View(WLdata_cleaner)
 # first, let's visualize how gender influences the allocation of money. 
 
 library(tidyverse)
-ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot()
+ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
 
 # One immediate issue we see when we visualize is that the boxplots for 
 # "nonbinary", "prefer not to say" and "transgender man" look very funky 
@@ -38,9 +38,6 @@ print(length(WLdata_cleaner$participant.gender))
 # "participant.gender" factor, we see how irregular the distributions for these 3 categories 
 # are in our response variable "prop.money.to.winner"
 
-library(ggplot2)
-ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
-
 # Therefore, it may be worthwhile to create a plot that does not include these three levels of the factor.
 # I am therefore using base r to create a dataframe that includes only "cisgender man" and "cisgender woman" in the gender category, 
 # since the low power of the other three categories doesn't provide enough reliability.
@@ -67,12 +64,12 @@ ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.coach.to.winner)) +
 
 # we can check the distributions of our response variables using a histogram
 
-histo.money.to.winner <- ggplot(WLdata_cleaner, aes(prop.money.to.winner)) + geom_histogram()
+histo.money.to.winner <- ggplot(WLdata_cleaner, aes(x = prop.money.to.winner)) + geom_histogram()
 print(histo.money.to.winner)
 
 # based on this histogram, the "money.to.winner" dependent variable is left skewed, towards the upper bound of 1.
 
-histo.coaching.to.winner <- ggplot(WLdata_cleaner, aes(prop.coach.to.winner)) + geom_histogram()
+histo.coaching.to.winner <- ggplot(WLdata_cleaner, aes(x = prop.coach.to.winner)) + geom_histogram()
 print(histo.coaching.to.winner)
 
 # based on this histogram, the response variable "proportion.coach.to.winner" is right skewed, towards the lower bound of 0.
