@@ -5,7 +5,10 @@ WLdata <- read_csv("QMEE_WL_social_data.csv")
 
 # data is also in QMEE repo and directory
 
-View(WLdata)
+## BMB: please don't View() (without commenting it out), it
+##  breaks non-interactive running of your script ...
+## View(WLdata)
+
 print(WLdata)
 
 # we can check if there are any NAs or oddities in our data using 
@@ -14,7 +17,7 @@ problems(WLdata)
 
 ## the problems() function indicates nothing is wrong or abnormal (no NAs, odd values, etc.)
 
-# First, I would like to convert my character variables into factors for the sake of data hygeine and so 
+# First, I would like to convert my character variables into factors for the sake of data hygiene and so 
 # I don't run into any issues or weird bugs when I eventually run my analyses. I am going to 
 # save a new datsaet with the mutated versions of the character variables from my old datasets.
 
@@ -30,6 +33,10 @@ WLdata_factors <- (WLdata
                    %>% mutate(winner.name = as.factor(winner.name))
 )
 
+## BMB: a more compact way to do this ...
+WLdata_factors <- (WLdata %>% mutate(across(where(is.character), as.factor)))
+
+
 # also, "participant.age" is being stored as a character, when it's actually a numeric variable
 # The only issue is that it includes several alphanumeric responses because of data collection,
 # as I provided the options "above 23" and "below 17" because I expected the vast majority 
@@ -38,7 +45,10 @@ WLdata_factors <- (WLdata
 # with NAs.
 
 # so I'm also going to convert "participant.age" to a factor and then view its summary 
+                                        
 # table to see if it's acceptable for me to eliminate the non-numeric responses
+
+## BMB: nice.
 
 WLdata_factors <- (WLdata_factors
                    %>% mutate(participant.age = as.factor(participant.age))
@@ -46,6 +56,9 @@ WLdata_factors <- (WLdata_factors
 
 summary(WLdata_factors$participant.age)
 
+## BMB see also:
+
+## https://stackoverflow.com/questions/21196106/finding-non-numeric-data-in-a-data-frame-or-vector/21196183#21196183
 # according to the summary table, only 4 people responded "greater than 24", while 2 
 # people responded "less than 17". Seeing as these responses represent less than 5% 
 # of the responses in that factor, I am comfortable making them NAs and potentially excluding
@@ -63,13 +76,14 @@ WLdata_factors <- (WLdata_factors
 # now, upon inspecting the dataframe for the "participant.age" factor, I see that there are
 # 6 responses that are "NA" where "less than 17" and "greater than 23" used to be. 
 
-View(WLdata_factors)
+## View(WLdata_factors)
 
 # I can now convert "participant.age" to a numeric variable, and will rename my data to "cleaner"
 
 WLdata_cleaner <- (WLdata_factors
                    %>% mutate(participant.age = as.numeric(participant.age))
 )
+## BMB: or use mutate(across(participant.age, as.numeric))
 
 # lastly, I see that my "participant.ID" variable is numeric according to the summary table,
 # and I would like to change this to a factor just to avoid any weird stuff going on.
