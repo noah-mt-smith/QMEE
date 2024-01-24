@@ -17,7 +17,9 @@
 # import and view dataset
 
 WL.social.data <- read.csv("QMEE_WL_social_data.csv")
-View(WL.social.data)
+
+## View is not really part of the script; better to type in console
+## View(WL.social.data)
 
 # One-sample t-test with the null that participants allocate 0.5 of their money to the winner
 
@@ -40,3 +42,5 @@ print(prop.coaching.t.test)
 
 # Since p < 0.05, we reject the null that participants allocate 0.5 of their coaching hours to the winner, and our t-statistic is negative, 
 # which indicates that participants allocated significantly less than 0.5 of their coaching hours to the winner.
+
+## Looks fine (Grade: 2) JD

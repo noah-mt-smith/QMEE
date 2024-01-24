@@ -3,13 +3,15 @@
 # first, we load our clean data using readRDS
 
 WLdata_cleaner <- readRDS("WLdata_cleaner.rds")
-View(WLdata_cleaner)
+## View(WLdata_cleaner)
 
 # Now that our data is a bit more organized, we can do a bit of visualization for fun!
 # first, let's visualize how gender influences the allocation of money. 
 
 library(tidyverse)
-ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
+ggplot(WLdata_cleaner, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot(fill = "gray") + theme_linedraw()
+
+## see https://clauswilke.com/dataviz/avoid-line-drawings.html
 
 # One immediate issue we see when we visualize is that the boxplots for 
 # "nonbinary", "prefer not to say" and "transgender man" look very funky 
@@ -40,10 +42,18 @@ print(length(WLdata_cleaner$participant.gender))
 
 # Therefore, it may be worthwhile to create a plot that does not include these three levels of the factor.
 # I am therefore using base r to create a dataframe that includes only "cisgender man" and "cisgender woman" in the gender category, 
-# since the low power of the other three categories doesn't provide enough reliability.
+## since the low power of the other three categories doesn't provide enough reliability.
+
+## actually a very general problem in this kind of data analysis -- stuck
+## between "ignore non-cis people" or "cope with the fact that we have
+## really crappy data about non-cis people"
 
 WLdata_cis_only = WLdata_cleaner[WLdata_cleaner$participant.gender == "cisgender man" | WLdata_cleaner$participant.gender == "cisgender woman",]
-View(WLdata_cis_only)
+## View(WLdata_cis_only)
+
+## BMB: or ...
+WLdata_cis_only = WLdata_cleaner %>% filter(grepl("cisgender", participant.gender))
+
 
 # I can check that the 6 non-cisgender responses have been removed by taking the length of my 
 # "participant.gender" column
@@ -54,11 +64,14 @@ print(length(WLdata_cis_only$participant.gender))
 # we can replot the boxplot using our new dataframe, and we will only see the two 
 # cisgender responses.
 
-ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot() + theme_linedraw()
+ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.money.to.winner)) + geom_boxplot(fill = "gray") + theme_linedraw()
 
 # we can also do the same with allocated coaching hours. 
 
 ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.coach.to.winner)) + geom_boxplot() + theme_linedraw()
+
+## BMB: if you want linedraw, use theme_set(theme_linedraw()) rather
+## than repeating it
 
 ## based on the coaching boxplot, it looks like the overall distribution might be skewed towards 0
 
@@ -66,6 +79,8 @@ ggplot(WLdata_cis_only, aes(x = participant.gender, y = prop.coach.to.winner)) +
 
 histo.money.to.winner <- ggplot(WLdata_cleaner, aes(x = prop.money.to.winner)) + geom_histogram()
 print(histo.money.to.winner)
+
+## BMB: wider bins?
 
 # based on this histogram, the "money.to.winner" dependent variable is left skewed, towards the upper bound of 1.
 
@@ -75,6 +90,8 @@ print(histo.coaching.to.winner)
 # based on this histogram, the response variable "proportion.coach.to.winner" is right skewed, towards the lower bound of 0.
 
 # we can also inspect the normality of these variables using QQ plots, 
+
+## BMB: we do **not** care about normality of these variables ...
 
 # money first
 prop.money.to.winner = WLdata_cleaner$prop.money.to.winner
@@ -97,4 +114,8 @@ shapiro.test(residuals(lm_coach_to_winner))
 
 # According to these shapiro-wilks tests, neither of these response variables are normally distributed, indicating that we should 
 # use non-parametric tests when eventually performing statistical tests on them, or transforming
-# them before conducting parametric tests.
+## them before conducting parametric tests.
+
+
+## BMB: this testing is unnecessary, or worse. We will discuss it later.
+
