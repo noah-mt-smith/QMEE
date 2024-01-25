@@ -98,17 +98,18 @@ money.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop.mo
   geom_boxplot() +
   labs(x="Competitive context", y = "Proportion of funds allocated to winner", fill = "Gender") +
   scale_fill_manual(values = c("blue","red"), labels = c("cis men", "cis women")) + 
-  theme_linedraw()
+  theme_linedraw() + 
+  ylim(0,1)
 )
 
 print(money.cont.cis.boxplot)
 
 coaching.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop.coach.to.winner, fill = participant.gender)) +
-                             geom_boxplot() +
-                             labs(x="Competitive context", y = "Proportion of coaching hours allocated to winner", fill = "Gender") +
-                             scale_fill_manual(values = c("blue","red"), labels = c("cis men", "cis women")) + 
-                             theme_linedraw()
+  geom_boxplot() +
+  labs(x="Competitive context", y = "Proportion of coaching hours allocated to winner", fill = "Gender") +
+  scale_fill_manual(values = c("blue","red"), labels = c("cis men", "cis women")) + 
+  theme_linedraw() +
+  ylim(0,1)
 )
 
 print(coaching.cont.cis.boxplot)
-
