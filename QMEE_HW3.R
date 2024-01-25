@@ -187,7 +187,6 @@ print(intelligence.hist)
 # So, I'm going to use the "patchwork" package to stack the two figures (alternatively), 
 # I could use ggplot's "facet" feature, but patchwork makes this a bit more straightforward.
 
-library(patchwork)
 stacked.hist <- athleticism.hist/intelligence.hist 
 print(stacked.hist)
 
