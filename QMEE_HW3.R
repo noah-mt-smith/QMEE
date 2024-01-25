@@ -6,6 +6,8 @@ summary(WLdata)
 
 # need to change the relevant characters and numeric variables to factors.
 
+## load performance() package and create an lm for one 
+# of my predictors. 
 
 WLdata <- (WLdata
   %>% mutate(across(where(is.character), as.factor))
