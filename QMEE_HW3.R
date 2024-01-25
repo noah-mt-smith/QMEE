@@ -78,7 +78,7 @@ context.money.boxplot <- (ggplot(WLdata_cis, aes(x = comp.context, y = prop.mone
   ylim(0,1)
 )
 
-print(comp.money.boxplot)
+print(context.money.boxplot)
 
 context.coaching.boxplot <- (ggplot(WLdata_cis, aes(x = comp.context, y = prop.coach.to.winner)) +
   geom_boxplot(fill = "lightblue") +
@@ -86,7 +86,7 @@ context.coaching.boxplot <- (ggplot(WLdata_cis, aes(x = comp.context, y = prop.c
   ylim(0,1)
 )
 
-print(comp.coaching.boxplot)
+print(context.coaching.boxplot)
 
 # Although it's useful to have these various plots, it would be more intuitive/in line with the Cleveland hierarchy 
 # if we can fit the four plots on one scale, as it would make it easier to compare how gender, competitive context, and the 
