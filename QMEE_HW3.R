@@ -1,6 +1,7 @@
 # Noah Smith QMEE HW3
 
 library(tidyverse)
+library(ggplot2); theme_set(theme_linedraw())
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
 
@@ -115,3 +116,59 @@ coaching.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop
 )
 
 print(coaching.cont.cis.boxplot)
+
+# It would also be interesting to see how age influences the proportion of money allocated to winners and losers. Since age is numeric, 
+# we can create a scatter plot with a loess to see what kind of trend there is. 
+
+age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
+  geom_point() +
+  geom_smooth() +
+  ylim(0,1)
+)
+
+print(age.money.scatter)
+
+# there seems to be a slight upward trend for awarding money to the winner as age increases, but there are so few observations in the 
+# upper age categories that they should be taken with a grain of salt.
+
+
+# we can also do the same for coaching hours.
+
+age.coaching.scatter <- (ggplot(WLdata_cis, 
+  aes(x = participant.age, y = prop.coach.to.winner)) + 
+  geom_point() + 
+  geom_smooth() +
+  ylim(0,1)
+)
+
+print(age.coaching.scatter)
+
+# The trend here looks very flat across all levels of age
+
+# I can also create some histograms for the perceived variation factors. These represent how
+# participants perceive variation in athleticism and intelligence within the population. The third level of the factor
+# "1", represents a population with a standard deviation equal to the standard normal distribution (e.g., the IQ distribution)
+
+# for the histograms to appear nicely, I convert the numeric variables into factors, as the bins on the histogram weren't functioning
+# to my liking (i.e., there was unequal spacing between the bars). I am thus using a bar plot to depict the distribution of the responses.
+
+WLdata <- (WLdata 
+  %>% mutate(athleticism.perception = as.factor(athleticism.perception))
+  %>% mutate(intelligence.perception = as.factor(intelligence.perception))
+)
+
+athleticism.hist <- (ggplot(WLdata,
+  aes(athleticism.perception)) + 
+  geom_bar()
+)
+
+print(athleticism.hist)
+
+intelligence.hist <- (ggplot(WLdata,
+  aes(intelligence.perception)) + 
+  geom_bar()
+)
+
+print(intelligence.hist)
+
+
