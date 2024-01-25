@@ -1,6 +1,7 @@
 # Noah Smith QMEE HW3
 
 library(tidyverse)
+library(patchwork)
 library(ggplot2); theme_set(theme_linedraw())
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
@@ -122,8 +123,10 @@ print(coaching.cont.cis.boxplot)
 
 age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
   geom_point() +
-  geom_smooth() +
-  ylim(0,1)
+# geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
+# I just decided to comment it out.
+  ylim(0,1) +
+  labs(x = "Participant age", y = "Proportion of money allocated to winner")
 )
 
 print(age.money.scatter)
@@ -137,7 +140,7 @@ print(age.money.scatter)
 age.coaching.scatter <- (ggplot(WLdata_cis, 
   aes(x = participant.age, y = prop.coach.to.winner)) + 
   geom_point() + 
-  geom_smooth() +
+# geom_smooth() + # again, this was giving 
   ylim(0,1)
 )
 
@@ -159,16 +162,32 @@ WLdata <- (WLdata
 
 athleticism.hist <- (ggplot(WLdata,
   aes(athleticism.perception)) + 
-  geom_bar()
+  geom_bar() +
+  labs(x = "Perceived athletic variation in the population", 
+  y = "Frequency") + 
+  ylim(0,80)
 )
 
 print(athleticism.hist)
 
 intelligence.hist <- (ggplot(WLdata,
   aes(intelligence.perception)) + 
-  geom_bar()
+  geom_bar() + 
+  labs(x = "Perceived intellectual variation in the population", 
+  y = "Frequency") + 
+  ylim(0,80)
 )
 
 print(intelligence.hist)
 
+# Although it's nice to have these two separate
+# histograms, it might also be useful for us to have them closer to one another, perhaps
+# one above the other, so that we can see how the distributions compare. 
+
+# So, I'm going to use the "patchwork" package to stack the two figures (alternatively), 
+# I could use ggplot's "facet" feature, but patchwork makes this a bit more straightforward.
+
+library(patchwork)
+stacked.hist <- athleticism.hist/intelligence.hist 
+print(stacked.hist)
 
