@@ -3,6 +3,7 @@
 library(tidyverse)
 library(patchwork)
 library(performance)
+#library(see)
 library(ggplot2); theme_set(theme_linedraw())
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
@@ -225,6 +226,9 @@ check_model(WLdata_money_lm)
 WLdata_coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + winner.name + char.age + comp.context, WLdata)
 summary(WLdata_coaching_lm)
 check_model(WLdata_coaching_lm)
+
+# for some reason, my "check_model()" command isn't working on my lm. I don't know why this is, 
+# but I know Shane is also having a similar error. 
 
 # other tests to look at...
 
