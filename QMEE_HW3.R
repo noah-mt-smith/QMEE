@@ -74,7 +74,7 @@ print(coaching.cisgender.boxplot)
 
 # Although this is a good start, it is a) very similar to what I did in "HW2b.R" last week, and b) it 
 # excludes an important predictor--"competitive context"--from being visualized. 
-# The competitive context refers to the whether participants read a scenario about a spelling bee
+# The competitive context refers to whether participants read a scenario about a spelling bee
 # (academic context) or a soccer match (athletic context). 
 
 context.money.boxplot <- (ggplot(WLdata_cis, aes(x = comp.context, y = prop.money.to.winner)) +
