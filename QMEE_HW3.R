@@ -198,7 +198,6 @@ print(intelligence.hist)
 # Although it's nice to have these two separate
 # histograms, it might also be useful for us to have them closer to one another, perhaps
 # one above the other, so that we can more closely see how the distributions compare. 
-
 # So, I'm going to use the "patchwork" package to stack the two figures (alternatively), 
 # I could use ggplot's "facet" feature, but patchwork makes this a bit more straightforward.
 # Proximity of comparison is maximized here, so I think it's best to have them stacked.
