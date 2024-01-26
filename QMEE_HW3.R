@@ -135,7 +135,7 @@ print(coaching.cont.cis.boxplot)
 
 age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
   geom_point() +
- geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
+# geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
 # I just decided to comment it out.
   ylim(0,1) +
   labs(x = "Participant age", y = "Proportion of money allocated to winner")
@@ -200,6 +200,7 @@ print(intelligence.hist)
 
 # So, I'm going to use the "patchwork" package to stack the two figures (alternatively), 
 # I could use ggplot's "facet" feature, but patchwork makes this a bit more straightforward.
+# Proximity of comparison is maximized here, so I think it's best to have them stacked.
 
 stacked.hist <- athleticism.hist/intelligence.hist 
 print(stacked.hist)
