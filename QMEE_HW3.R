@@ -5,6 +5,7 @@ library(patchwork)
 library(performance)
 library(see)
 library(ggplot2); theme_set(theme_linedraw())
+library(qqplotr)
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
 
@@ -20,7 +21,9 @@ summary(WLdata)
 #View(WLdata)
 
 # the first thing I'd like to do is create boxplots on how gender interacts with the proportion of 
-# money and coaching hours allocated to the winner and loser. 
+# money and coaching hours allocated to the winner and loser. Boxplots allow the audience 
+# to see roughly what the sample of each boxplot is doing without simplifying the dataset too much, so 
+# I think they are an appropriate choice here.
 
 money.gender.boxplot <- (ggplot(WLdata, aes(x = participant.gender, y= prop.money.to.winner)) + 
   geom_boxplot(fill="gray") + 
@@ -38,10 +41,10 @@ coaching.gender.boxplot <- (ggplot(WLdata, aes(x = participant.gender, y= prop.c
 
 print(coaching.gender.boxplot)
 
-# The lack of power for the non-cisgender individuals makes these boxplots fairly 
+# The lack of power for the non-cisgender individuals makes those 3 plots fairly 
 # uninformative, so I'm not sure having them is necessary. So, I'm going to create 
 # a dataframe without those categories and plot those instead. Ideally, I would have a
-# larger sample of non-cis identity individuals.
+# larger sample of non-cis individuals.
 
 
 WLdata_cis <- (WLdata
@@ -99,7 +102,7 @@ print(context.coaching.boxplot)
 # each factor and sublevel of each factor is doing.
 
 # I also added a line to the boxplots at the point of interest, y = 0.5, because 
-# we care about comparing the distribution of funds and coaching hours to that point. 
+# we care about comparing the distribution of funds and coaching hours to that point specifically. 
 # I.e., if there's no difference between funds allocated to winners and losers, 
 # then boxplots should be centered around the y = 0.5 line. Although theme(linedraw)
 # already includes a line at 0.5, I just wanted to make it clearer. 
@@ -126,16 +129,14 @@ coaching.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop
 
 print(coaching.cont.cis.boxplot)
 
-
-
-# It would also be interesting to see how age influences the proportion of money allocated to winners and losers. Since age is numeric, 
-# we can create a scatter plot with a loess to see what kind of trend there is. I also initially fit a loess to it, 
-# but it was returning so many errors that I figure it is not a good fit to the data. 
+# It would also be interesting to see how age interacts with the proportion of money allocated to winners and losers. Since age is numeric, 
+# we can create a scatter plot to see what kind of trend there is. I also initially fit a loess to it, 
+# but it was returning so many errors that I figure it is not a good method to use in the case of my data.
 
 age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
   geom_point() +
  geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
-#I just decided to comment it out.
+# I just decided to comment it out.
   ylim(0,1) +
   labs(x = "Participant age", y = "Proportion of money allocated to winner")
 )
@@ -146,7 +147,7 @@ print(age.money.scatter)
 # upper age categories that they should be taken with a grain of salt.
 
 
-# we can also do the same for coaching hours.
+# we can also create a scatter plot that depicts how how age interacts with the allocation of coaching hours.
 
 age.coaching.scatter <- (ggplot(WLdata_cis, 
   aes(x = participant.age, y = prop.coach.to.winner)) + 
@@ -159,7 +160,7 @@ age.coaching.scatter <- (ggplot(WLdata_cis,
 
 print(age.coaching.scatter)
 
-# The trend here looks very flat across all levels of age
+# The trend here looks very flat across all levels of age.
 
 # I can also create some histograms for the perceived variation factors. These represent how
 # participants perceive variation in athleticism and intelligence within the population. The third level of the factor
@@ -203,21 +204,9 @@ print(intelligence.hist)
 stacked.hist <- athleticism.hist/intelligence.hist 
 print(stacked.hist)
 
-# I believe my main variables of interest are best tested using wilcoxon sign-ranked tests (but I'm not sure...) 
-# The wilcoxon test provides a robust non-parametric way to test whether the mean of my factors
-# is equal to what they would be if there was no difference between the amount of money 
-# participants allocated to winners and losers (and no difference between coaching hours
-# allocated to winners and losers) (i.e., 0.5 money or coaching hours to winner).
-
-wilcox.money <- wilcox.test(WLdata$prop.money.to.winner - 0.5)
-print(wilcox.money)
-
-wilcox.coaching <- wilcox.test(WLdata$prop.coach.to.winner - 0.5)
-print(wilcox.coaching)
-
-# however, I would still like to see whether my other fixed factors affect the distribution
-# of funds to the participants. I can do this by constructing a linear model that
-# includes the other fixed factors I'm interested in, and then testing how well the assumptions of my 
+# Back to the two response variables "prop.money.to.winner" and "prop.coach.to.winner", I would still like to see 
+# whether my other fixed factors affect the distribution of funds to the participants. I can do this by constructing 
+# a linear model that includes the other fixed factors I'm interested in, and then testing how well the assumptions of my 
 # lm fit my data using the performance::check_model() function.
 
 WLdata_money_lm_cis <- lm(prop.money.to.winner ~ participant.gender + 
@@ -236,35 +225,42 @@ WLdata_coaching_lm_cis <- lm(prop.coach.to.winner ~ participant.gender +
 summary(WLdata_coaching_lm_cis)
 check_model(WLdata_coaching_lm_cis)
 
-# for some reason, my "check_model()" function only works when I use the "cis" dataframe (i.e., the dataframe
+# Although worse for the second model, the check_model() function seems to indicate that both datasets
+# could probably be modeled more accurately. 
+
+# Also, for some reason, my "check_model()" function only works when I use the "cis" dataframe (i.e., the dataframe
 # that has only 2 levels for gender instead of the 5 that are in the full dataframe). This excludes 6 out of 170 
 # datapoints. It's not ideal that I've excluded those values, but I can't find any other reason why it doesn't work. 
 # Also, if I try to run check_model() on my lm for the full dataset, but exclude the "participant.gender" factor, 
 # check_model() works. When I include "participant.gender" (for the full dataset) it check_model() doesn't work. 
-# If the "check_model" function worked with my full dataframe, I'd be using that dataframe instead.
+# If the "check_model" function worked with my full dataframe, I'd be using that dataframe instead. 
 
-#  However, this can be fixed by creating our original LMs (that, include all levels of participant.gender),
+# However, this can be fixed by creating our original LMs (that, include all levels of participant.gender),
 # and just manually printing out the plots one by one. 
 
-WLdata_lm <- lm(prop.money.to.winner ~ participant.gender + 
+WLdata_money_lm <- lm(prop.money.to.winner ~ participant.gender + 
                   winner.name + 
                   char.age + 
                   comp.context, WLdata
 )
 
-# some other stuff to look at
+plot(check_posterior_predictions(WLdata_money_lm))
+plot(check_normality(WLdata_money_lm))
+plot(check_heteroscedasticity(WLdata_money_lm)) ## this plot is way different than the homogeneity of variance check_model() 
+# plot generated by performance::check_model(WLdata_money_lm_cis). I'm assuming this may be due to the addition of 
+# the three other levels to gender, but I'm not sure.
+plot(check_distribution(WLdata_money_lm))
 
-wilcox.athleticism <- wilcox.test(as.numeric(as.character(WLdata$athleticism.perception)), mu = 1)
-print(wilcox.athleticism)
-
-wilcox.intelligence <- wilcox.test(as.numeric(as.character(WLdata$intelligence.perception)), mu = 1)
-print(wilcox.intelligence)
-
-WLdata_lm <- lm(prop.money.to.winner ~ participant.gender + 
-                winner.name + 
-                char.age + 
-                comp.context, WLdata
+WLdata_coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + 
+                        winner.name + 
+                        char.age + 
+                        comp.context, WLdata
 )
 
+plot(check_posterior_predictions(WLdata_coaching_lm))
+plot(check_normality(WLdata_coaching_lm))
+plot(check_heteroscedasticity(WLdata_coaching_lm))
+plot(check_distribution(WLdata_coaching_lm))
 
-plot(check_posterior_predictions(WLdata_lm))
+# In general, the diagnostic plots inform me that my data could probably be modeled more accurately, 
+# as many of the observed datapoints do not fall along the expected lines.
