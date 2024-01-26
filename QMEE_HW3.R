@@ -2,6 +2,7 @@
 
 library(tidyverse)
 library(patchwork)
+library(performance)
 library(ggplot2); theme_set(theme_linedraw())
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
@@ -189,4 +190,32 @@ print(intelligence.hist)
 
 stacked.hist <- athleticism.hist/intelligence.hist 
 print(stacked.hist)
+
+# I believe my main variables of interest are best tested using wilcoxon sign-ranked tests (but I'm not sure...) 
+# The wilcoxon test provides a robust non-parametric way to test whether the mean of my factors
+# is equal to what they would be if there was no difference between the amount of money 
+# participants allocated to winners and losers (and no difference between coaching hours
+# allocated to winners and losers. This is equivalent to saying that participants allocated 0.5
+# of the available funds and coaching hours to the winner.
+
+wilcox.money <- wilcox.test(WLdata$prop.money.to.winner - 0.5)
+print(wilcox.money)
+
+wilcox.coaching <- wilcox.test(WLdata$prop.coach.to.winner - 0.5)
+print(wilcox.coaching)
+
+# however, I would still like to see whether my other fixed factors affected the distribution
+# of funds to the participants. I can do this by constructing a linear model that
+# includes the other fixed factors I'm interested in. 
+
+WLdata_lm <- lm(prop.money.to.winner  ~ participant.gender + char.age + comp.context, WLdata)
+summary(WLdata_lm)
+check_model(WLdata_lm)
+
+wilcox.athleticism <- wilcox.test(as.numeric(as.character(WLdata$athleticism.perception)) - 1)
+print(wilcox.athleticism)
+
+wilcox.intelligence <- wilcox.test(as.numeric(as.character(WLdata$intelligence.perception)), mu = 1)
+print(wilcox.intelligence)
+
 
