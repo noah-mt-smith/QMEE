@@ -105,7 +105,8 @@ print(context.coaching.boxplot)
 # we care about comparing the distribution of funds and coaching hours to that point specifically. 
 # I.e., if there's no difference between funds allocated to winners and losers, 
 # then boxplots should be centered around the y = 0.5 line. Although theme(linedraw)
-# already includes a line at 0.5, I just wanted to make it clearer. 
+# already includes a line at 0.5, I just wanted to make it clearer. If this line were absent, 
+# viewers might be unsure about where to look on the plot.
 
 money.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop.money.to.winner, fill = participant.gender)) +
   geom_boxplot() +
