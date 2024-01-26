@@ -103,6 +103,7 @@ money.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop.mo
   geom_boxplot() +
   labs(x="Competitive context", y = "Proportion of funds allocated to winner", fill = "Gender") +
   scale_fill_manual(values = c("blue","red"), labels = c("cis men", "cis women")) + 
+    geom_hline(yintercept = 0.5, linetype = "dashed", color = "black", linewidth = 0.5) +
   theme_linedraw() + 
   ylim(0,1)
 )
@@ -114,10 +115,17 @@ coaching.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop
   labs(x="Competitive context", y = "Proportion of coaching hours allocated to winner", fill = "Gender") +
   scale_fill_manual(values = c("blue","red"), labels = c("cis men", "cis women")) + 
   theme_linedraw() +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "black", linewidth = 0.5) +
   ylim(0,1)
 )
 
 print(coaching.cont.cis.boxplot)
+
+# I also added a line to the boxplots at the point of interest, y = 0.5, because 
+# we care about comparing the distribution of funds and coaching hours to that point. 
+# I.e., if there's no difference between funds allocated to winners and losers, 
+# then boxplots should be centered around the y = 0.5 line. Although theme(linedraw)
+# already includes a line at 0.5, I just wanted to make it clearer. 
 
 # It would also be interesting to see how age influences the proportion of money allocated to winners and losers. Since age is numeric, 
 # we can create a scatter plot with a loess to see what kind of trend there is. 
@@ -141,8 +149,10 @@ print(age.money.scatter)
 age.coaching.scatter <- (ggplot(WLdata_cis, 
   aes(x = participant.age, y = prop.coach.to.winner)) + 
   geom_point() + 
-# geom_smooth() + # again, this was giving 
-  ylim(0,1)
+# geom_smooth() + # again, this was working but it was
+# giving me several warnings so I commented it out. 
+  ylim(0,1) +
+  labs(x = "Participant age", y = "Proportion of coaching hours allocated to winner")
 )
 
 print(age.coaching.scatter)
@@ -183,7 +193,7 @@ print(intelligence.hist)
 
 # Although it's nice to have these two separate
 # histograms, it might also be useful for us to have them closer to one another, perhaps
-# one above the other, so that we can see how the distributions compare. 
+# one above the other, so that we can more closely see how the distributions compare. 
 
 # So, I'm going to use the "patchwork" package to stack the two figures (alternatively), 
 # I could use ggplot's "facet" feature, but patchwork makes this a bit more straightforward.
