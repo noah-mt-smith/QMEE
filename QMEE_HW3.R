@@ -3,15 +3,12 @@
 library(tidyverse)
 library(patchwork)
 library(performance)
-#library(see)
+library(see)
 library(ggplot2); theme_set(theme_linedraw())
 WLdata <- read_csv("WL_soc_clean.csv")
 summary(WLdata)
 
-# need to change the relevant characters and numeric variables to factors.
-
-## load performance() package and create an lm for one 
-# of my predictors. 
+# Before creating various plots,  I need to change some variables in my dataframe. 
 
 WLdata <- (WLdata
   %>% mutate(across(where(is.character), as.factor))
@@ -22,8 +19,8 @@ summary(WLdata)
 
 #View(WLdata)
 
-# the first thing I'd like to do is create boxplots on how gender affects proportion of 
-# money and coaching hours allocated to the winner and loser
+# the first thing I'd like to do is create boxplots on how gender interacts with the proportion of 
+# money and coaching hours allocated to the winner and loser. 
 
 money.gender.boxplot <- (ggplot(WLdata, aes(x = participant.gender, y= prop.money.to.winner)) + 
   geom_boxplot(fill="gray") + 
@@ -98,7 +95,14 @@ print(context.coaching.boxplot)
 # if we can fit the four plots on one scale, as it would make it easier to compare how gender, competitive context, and the 
 # allocation of money or coaching hours to the winner interact with one another. Increasing the number of boxplots in a single 
 # figure would also allow us to go from four figures to two figures, but more importantly makes the data more understandable because
-# of its proximity to one another.
+# of its proximity to one another. These are descriptive plots which can show us roughly what the sample of 
+# each factor and sublevel of each factor is doing.
+
+# I also added a line to the boxplots at the point of interest, y = 0.5, because 
+# we care about comparing the distribution of funds and coaching hours to that point. 
+# I.e., if there's no difference between funds allocated to winners and losers, 
+# then boxplots should be centered around the y = 0.5 line. Although theme(linedraw)
+# already includes a line at 0.5, I just wanted to make it clearer. 
 
 money.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop.money.to.winner, fill = participant.gender)) +
   geom_boxplot() +
@@ -122,19 +126,16 @@ coaching.cont.cis.boxplot <- (ggplot( WLdata_cis, aes(x = comp.context, y = prop
 
 print(coaching.cont.cis.boxplot)
 
-# I also added a line to the boxplots at the point of interest, y = 0.5, because 
-# we care about comparing the distribution of funds and coaching hours to that point. 
-# I.e., if there's no difference between funds allocated to winners and losers, 
-# then boxplots should be centered around the y = 0.5 line. Although theme(linedraw)
-# already includes a line at 0.5, I just wanted to make it clearer. 
+
 
 # It would also be interesting to see how age influences the proportion of money allocated to winners and losers. Since age is numeric, 
-# we can create a scatter plot with a loess to see what kind of trend there is. 
+# we can create a scatter plot with a loess to see what kind of trend there is. I also initially fit a loess to it, 
+# but it was returning so many errors that I figure it is not a good fit to the data. 
 
 age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
   geom_point() +
-# geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
-# I just decided to comment it out.
+ geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
+#I just decided to comment it out.
   ylim(0,1) +
   labs(x = "Participant age", y = "Proportion of money allocated to winner")
 )
@@ -206,8 +207,7 @@ print(stacked.hist)
 # The wilcoxon test provides a robust non-parametric way to test whether the mean of my factors
 # is equal to what they would be if there was no difference between the amount of money 
 # participants allocated to winners and losers (and no difference between coaching hours
-# allocated to winners and losers. This is equivalent to saying that participants allocated 0.5
-# of the available funds and coaching hours to the winner.
+# allocated to winners and losers) (i.e., 0.5 money or coaching hours to winner).
 
 wilcox.money <- wilcox.test(WLdata$prop.money.to.winner - 0.5)
 print(wilcox.money)
@@ -215,27 +215,56 @@ print(wilcox.money)
 wilcox.coaching <- wilcox.test(WLdata$prop.coach.to.winner - 0.5)
 print(wilcox.coaching)
 
-# however, I would still like to see whether my other fixed factors affected the distribution
+# however, I would still like to see whether my other fixed factors affect the distribution
 # of funds to the participants. I can do this by constructing a linear model that
-# includes the other fixed factors I'm interested in. 
+# includes the other fixed factors I'm interested in, and then testing how well the assumptions of my 
+# lm fit my data using the performance::check_model() function.
 
-WLdata_money_lm <- lm(prop.money.to.winner  ~ participant.gender + winner.name + char.age + comp.context, WLdata)
-summary(WLdata_money_lm)
-check_model(WLdata_money_lm)
+WLdata_money_lm_cis <- lm(prop.money.to.winner ~ participant.gender + 
+                          winner.name + 
+                          char.age + 
+                          comp.context, WLdata_cis
+)
+summary(WLdata_money_lm_cis)
+check_model(WLdata_money_lm_cis)
 
-WLdata_coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + winner.name + char.age + comp.context, WLdata)
-summary(WLdata_coaching_lm)
-check_model(WLdata_coaching_lm)
+WLdata_coaching_lm_cis <- lm(prop.coach.to.winner ~ participant.gender + 
+                             winner.name + 
+                             char.age + 
+                             comp.context, WLdata_cis
+)
+summary(WLdata_coaching_lm_cis)
+check_model(WLdata_coaching_lm_cis)
 
-# for some reason, my "check_model()" command isn't working on my lm. I don't know why this is, 
-# but I know Shane is also having a similar error. 
+# for some reason, my "check_model()" function only works when I use the "cis" dataframe (i.e., the dataframe
+# that has only 2 levels for gender instead of the 5 that are in the full dataframe). This excludes 6 out of 170 
+# datapoints. It's not ideal that I've excluded those values, but I can't find any other reason why it doesn't work. 
+# Also, if I try to run check_model() on my lm for the full dataset, but exclude the "participant.gender" factor, 
+# check_model() works. When I include "participant.gender" (for the full dataset) it check_model() doesn't work. 
+# If the "check_model" function worked with my full dataframe, I'd be using that dataframe instead.
 
-# other tests to look at...
+#  However, this can be fixed by creating our original LMs (that, include all levels of participant.gender),
+# and just manually printing out the plots one by one. 
 
-wilcox.athleticism <- wilcox.test(as.numeric(as.character(WLdata$athleticism.perception)) - 1)
+WLdata_lm <- lm(prop.money.to.winner ~ participant.gender + 
+                  winner.name + 
+                  char.age + 
+                  comp.context, WLdata
+)
+
+# some other stuff to look at
+
+wilcox.athleticism <- wilcox.test(as.numeric(as.character(WLdata$athleticism.perception)), mu = 1)
 print(wilcox.athleticism)
 
 wilcox.intelligence <- wilcox.test(as.numeric(as.character(WLdata$intelligence.perception)), mu = 1)
 print(wilcox.intelligence)
 
+WLdata_lm <- lm(prop.money.to.winner ~ participant.gender + 
+                winner.name + 
+                char.age + 
+                comp.context, WLdata
+)
 
+
+plot(check_posterior_predictions(WLdata_lm))
