@@ -208,9 +208,13 @@ print(wilcox.coaching)
 # of funds to the participants. I can do this by constructing a linear model that
 # includes the other fixed factors I'm interested in. 
 
-WLdata_lm <- lm(prop.money.to.winner  ~ participant.gender + winner.name + char.age + comp.context, WLdata)
-summary(WLdata_lm)
-check_model(WLdata_lm)
+WLdata_money_lm <- lm(prop.money.to.winner  ~ participant.gender + winner.name + char.age + comp.context, WLdata)
+summary(WLdata_money_lm)
+check_model(WLdata_money_lm)
+
+WLdata_coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + winner.name + char.age + comp.context, WLdata)
+summary(WLdata_coaching_lm)
+check_model(WLdata_coaching_lm)
 
 # other tests to look at...
 
