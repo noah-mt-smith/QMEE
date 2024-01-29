@@ -1,3 +1,5 @@
+Random update to read me
+
 JD: I'm going to suggest you keep paragraphs to <1200 characters or so. They're particularly hard for me to read in text files because I have settings to help my bad eyes – but I think it's pretty good general advice as well. I broke a couple of paragraphs below, largely for my own convenience, sorry. Feel free to rethink those decisions.
 
 # Assignment 2 description 
