@@ -32,3 +32,7 @@ print(perm.test.coaching)
 plot(perm.test.coaching)
 
 # calculate effect size for money to winner
+
+
+# What i need: confidence intervals of "money to winner" and "coaching to winner" on a 
+# plot with x-axis of 0-1 and a line at 0.5
