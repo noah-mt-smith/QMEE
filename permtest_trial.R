@@ -4,7 +4,7 @@ library(tidyverse)
 library(EnvStats)
 
 WLdata <- read_csv("WL_soc_clean.csv")
-
+#View(WLdata)
 # run permutation test on money allocated to winner (set to one-hundred thousand, maybe overkill)
 
 money.to.winner <- WLdata$prop.money.to.winner
