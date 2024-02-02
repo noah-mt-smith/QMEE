@@ -20,7 +20,7 @@ Imagine a population of 100 people. We know that 1 person has MMV, and that 1 pe
 
 P(pos) = P(positive|MMV) + P(positive|no_MMV) = 1 + 4.95 = 5.95
 
-Now we can calculate the probability of the randomly selected individual (with a positive test) having MMV.
+Now we can calculate the probability of the randomly selected individual (who tested positive) having MMV.
 
 P(MMV|positive) = (P(positive|MMV)*P(MMV))/P(positive)
 
@@ -30,15 +30,17 @@ Therefore, the probability of having MMV given a positive test result is 0.168.
 
 2. You learn that your friend has a positive rapid test for MMV. What do you tell them?
 
-I'm not sure what I could tell them without more information. I know the baseline positive rate in the population is 5.95%, but the test can't tell them anything difinitive unless we have more info. What are their symptoms? For example, if they begin insisting that we should stop cherishing p-values and should instead supplement them with effect sizes and confidence intervals, I would likely encourage them to visit their local statistician for a more expert opinion.
+I'm not sure what I could tell them without more information. I know the baseline positive rate in the population is 5.95%, but the test can't tell them anything definitive unless we know more--for example, what are their symptoms? If they began insisting that we should stop cherishing p-values and should instead supplement them with effect sizes and confidence intervals, I would likely encourage them to visit their local statistician for a more expert opinion.
 
 
 HYPOTHESIS FOR MY DATA: 
 
-I predict that humans are biased towards rewarding winners. I predict that, when given a choice to allocate finite funds and coaching hours to winners and losers, participants will allocate greater than 0.5 of their available funds and coaching hours to the winner.
+For data, see the file WL_soc_clean.csv. The below predictions correspond to the columns "prop.money.to.winner" and "prop.coach.to.winner".
+
+I predict that humans are biased towards rewarding winners. When given a choice to allocate finite funds and coaching hours to winners and losers in a fictional story, I predict that participants will allocate greater than 0.5 of their available funds and coaching hours to the winner.
 
 I will test my prediction using a one-sample permutation test using the {EnvStats} package. I will compare my observed distribution to a null distribution that centers around 0.5.
 
 I will do this for both the proportion of funds allocated to winners and the proportion of coaching hours allocated to the winners.
 
-I initially thought a one-sample t-test would be appropriate (comparing my data to mu = 0.5), but I believe that a one-sample permutation test is more appropriate, as it makes fewer assumptions about the data and may therefore provide a more robust measure. 
+I initially thought a one-sample t-test would be appropriate (comparing my data to mu = 0.5), but I believe that a one-sample permutation test is more appropriate, as it makes fewer assumptions about the data and likely provides a more robust measure. 
