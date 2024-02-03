@@ -44,3 +44,6 @@ I will test my prediction using a one-sample permutation test using the {EnvStat
 I will do this for both the proportion of funds allocated to winners and the proportion of coaching hours allocated to the winners.
 
 I initially thought a one-sample t-test would be appropriate (comparing my data to mu = 0.5), but I believe that a one-sample permutation test is more appropriate, as it makes fewer assumptions about the data and likely provides a more robust measure. 
+
+Although the permutation test will provide me with a p-value, I should also calculate 95% confidence intervals for both funds allocated to winners and coaching hours allocated to winners. I can observe how these confidence intervals interact with my null hypothesis of 0.5 money allocated to both winners and losers. If my confidence intervals crossed 0.5, it wouldn't necessarily mean that there is no effect, it would just mean that the effect is unclear given my study and statistics. Furthermore, based on prior knowledge of studies in related fields, I consider a difference of about 0.10 in allocation between winners and losers (i.e., 0.55 to winners, 0.45 to losers, or vice versa), could be considered a "large" effect. I would thus set "cutoffs" about 0.05 above and 0.05 below my baseline of 0.5.
+
