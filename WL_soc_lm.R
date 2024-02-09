@@ -14,3 +14,14 @@ check_model(money_lm)
 coaching_lm <- lm(prop.coach.to.winner ~ comp.context*participant.gender*char.age*winner.name, data = WLdata_cis)
 check_model(coaching_lm)
 
+view(WLdata)
+
+WLdata1 <- (WLdata
+    %>% select(-scenario.number)
+)
+
+view(WLdata1)
+
+summary(WLdata1)
+
+write.csv(WLdata1, "WL_soc_clean.csv")
