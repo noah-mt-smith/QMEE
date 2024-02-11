@@ -90,9 +90,53 @@ performance::check_model(coaching_lm_log)
 
 library(emmeans)
 library(ggplot2)
-comp <- WLdata$comp.context
+
+money.athletic <- 
 emmean_money <- emmeans(money_lm, specs = "comp.context")
-plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 3)
+plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 2) + geom_vline(xintercept = c(0.45, 0.55), lty = 3) + xlim(0.3,0.75) + 
+  labs(x = "Mean proportion money allocated to winner",  y = "Competitive context")
+
+# This inferential plot shows that the confidence intervals for our model does not overlap 0.5, indicating that there is 
+# significantly more allocation to winners in both types of competitive contexts (academic and athletic). Also, they do not cross over the ±0.05 
+# threshold that I indicated I'd use as a litmus test for the effect size. In general, this bias to reward winners with more 
+# money seems fairly strong. However, to be sure, I am going to compute effect size statistics by comparing them to a mean of 0.5. 
+
+# First I'm going to create two dataframes that I can use to extract the values I want during the cohen's d calculations.
+
+WLdata_athletic <- (WLdata
+    %>% filter(grepl("Athletic", comp.context))
+)
+WLdata_academic <- (WLdata
+                    %>% filter(grepl("Academic", comp.context))
+)
+
+lsr::cohensD(WLdata_athletic$prop.money.to.winner, mu = 0.5)
+
+lsr::cohensD(WLdata_academic$prop.money.to.winner, mu = 0.5)
+
+# Both of these effect sizes are fairly large and positive (around 0.8), indicating that there is a fairly strong bias to allocate 
+# more money to winners in athletic and academic contexts. 
+
+# I am also going to create the same emmeans plot and calculate the effect sizes for the amount of coaching hours allocated.
+
+emmean_coaching <- emmeans(coaching_lm, specs = "comp.context")
+
+plot(emmean_coaching) + geom_vline(xintercept = 0.5, lty = 2) + geom_vline(xintercept = c(0.45, 0.55), lty = 3) + xlim(0.3, 0.75) +
+  labs(x = "Mean proportion of coaching hours allocated to winner", y = "Competitive context")
+
+# These confidence intervals indicate that there is a significant but small effect for allocating more coaching hours 
+# to winners in the athletic context. However, this does not cross our ±0.05 threshold (i.e., it isn't over 0.55).
+# Conversely, the data suggest a clear and slightly stronger tendency to award fewer coaching hours to winners 
+# in an academic context. I have computed effect sizes on these two means below.
+
+lsr::cohensD(WLdata_athletic$prop.coach.to.winner, mu = 0.5)
+
+# This is a very weak positive effect.
+
+lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
+
+# This is a medium to strong negative effect. The data suggest that we may be biased to giving fewer coaching hours 
+# to winners in an academic context. Albeit, the confidence interval does cross 0.45.
 
 
 
@@ -101,9 +145,9 @@ plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 3)
 
 # One other thing I wanted to try was a one-sample permutation test on both of my response variables. Seeing as 
 # my response variables do not meet many of the assumptions, I thought it might be useful to use a permutation 
-# test, which doesn't rely on many of the assumptions. I do not know if this method is actually correct.
-# I brought it up to Dr. Bolker on Tuesday and he indicated that it probably isn't the right way to go, but I'm not 
-# sure a logistic regression would be the right way to go either (however, I revisit this near the bottom of this file).
+# test, which doesn't rely on many of the assumptions. I do not know if this method is actually correct, and next week
+# or for my final project I'm going to try implementing the method that I spoke about with Dr. Bolker, which is using 
+# a logistic regression.
 
 # My null hypotheses are that funds allocated to winners will equal 0.5, and coaching hours 
 # allocated will equal 0.5.
