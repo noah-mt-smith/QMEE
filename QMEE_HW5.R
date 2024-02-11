@@ -85,15 +85,25 @@ coaching_lm_log <- lm(prop.coach.to.winner ~ participant.gender + comp.context +
 performance::check_model(money_lm_log)
 performance::check_model(coaching_lm_log)
 
+# seeing as none of these transformations really improved the homoscedasticity of my data, I'm just going to stick with my 
+# initial linear models ('money_lm' and 'coaching_lm') to compute confidence intervals and effect sizes.
+
+library(emmeans)
+library(ggplot2)
+comp <- WLdata$comp.context
+emmean_money <- emmeans(money_lm, specs = "comp.context")
+plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 3)
+
+
+
 # PERMUTAITON TEST ATTEMPT (ONE-SAMPLE PERMUTATION TEST USING "ENVSTATS" PACKAGE)
 # link to method: https://search.r-project.org/CRAN/refmans/EnvStats/html/oneSamplePermutationTest.html
 
-# One last thing I wanted to try was a one-sample permutation test on both of my response variables. Seeing as 
+# One other thing I wanted to try was a one-sample permutation test on both of my response variables. Seeing as 
 # my response variables do not meet many of the assumptions, I thought it might be useful to use a permutation 
-# test, which doesn't rely on many of the assumptions. Importantly, I do not know if this method is actually correct.
+# test, which doesn't rely on many of the assumptions. I do not know if this method is actually correct.
 # I brought it up to Dr. Bolker on Tuesday and he indicated that it probably isn't the right way to go, but I'm not 
-# sure a logistic regression would be the right way to go either (though I don't have very strong knowledge of 
-# logistic regression).
+# sure a logistic regression would be the right way to go either (however, I revisit this near the bottom of this file).
 
 # My null hypotheses are that funds allocated to winners will equal 0.5, and coaching hours 
 # allocated will equal 0.5.
@@ -129,11 +139,4 @@ plot(perm.test.coaching)
 
 # The permutation tests indicate that the means of my response variables (money allocated and coaching hours allocated) are 
 # sufficiently different from 0.5, 
-
-# I also want to compute effect sizes for the mean difference between my response variables and my null hypothesis value (0.5), 
-# so I am using the package "lsr", which includes a cohensD() function.  
-
-lsr::cohensD(coaching.to.winner, mu = 0.5)
-lsr::cohensD(money.to.winner, mu = 0.5)
-
 
