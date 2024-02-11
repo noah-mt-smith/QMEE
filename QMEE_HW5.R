@@ -17,6 +17,7 @@ WLdata <- read.csv("WL_soc_clean.csv")
 WLdata_cis <- (WLdata
                %>% filter(grepl("cisgender", participant.gender))
 )
+
 money_lm <- lm(prop.money.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis)
 performance::check_model(money_lm)
 
@@ -80,28 +81,31 @@ WLdata_cis_log <- (WLdata_cis
     %>% mutate(prop.money.to.winner = log1p(prop.money.to.winner))
     %>% mutate(prop.coach.to.winner = log1p(prop.coach.to.winner))
 )
+
 money_lm_log <- lm(prop.money.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis_log)
 coaching_lm_log <- lm(prop.coach.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis_log)
 performance::check_model(money_lm_log)
 performance::check_model(coaching_lm_log)
 
 # seeing as none of these transformations really improved the homoscedasticity of my data, I'm just going to stick with my 
-# initial linear models ('money_lm' and 'coaching_lm') to compute confidence intervals and effect sizes.
+# initial linear models ('money_lm' and 'coaching_lm') which contained the untransformed response variables. I will compute 
+# inferential plots that have confidence intervals for these two response variables. I'm going to compare my two response
+# variables to a mean of 0.5 (my nulls), but I've also added two other hashmarks at ±0.05 of the null to indicate what I would
+# consider a substantial effect.
 
 library(emmeans)
 library(ggplot2)
 
-money.athletic <- 
 emmean_money <- emmeans(money_lm, specs = "comp.context")
 plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 2) + geom_vline(xintercept = c(0.45, 0.55), lty = 3) + xlim(0.3,0.75) + 
   labs(x = "Mean proportion money allocated to winner",  y = "Competitive context")
 
-# This inferential plot shows that the confidence intervals for our model does not overlap 0.5, indicating that there is 
-# significantly more allocation to winners in both types of competitive contexts (academic and athletic). Also, they do not cross over the ±0.05 
-# threshold that I indicated I'd use as a litmus test for the effect size. In general, this bias to reward winners with more 
-# money seems fairly strong. However, to be sure, I am going to compute effect size statistics by comparing them to a mean of 0.5. 
+# This inferential plot shows that the confidence intervals for the two levels of my first response variable (money allocated to winner)
+# do not overlap 0.5, indicating that there is significantly more allocation of money to winners in both types of competitive contexts
+# (academic and athletic). Also, they do not cross the ±0.05 threshold that I indicated I'd use as a litmus test for the 
+# effect size. However, to be sure, I am going to compute effect size statistics by comparing them to a mean of 0.5. 
 
-# First I'm going to create two dataframes that I can use to extract the values I want during the cohen's d calculations.
+# First I'm going to create two dataframes that I can use to extract the values I want for the cohen's d calculations.
 
 WLdata_athletic <- (WLdata
     %>% filter(grepl("Athletic", comp.context))
@@ -138,8 +142,6 @@ lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
 # This is a medium to strong negative effect. The data suggest that we may be biased to giving fewer coaching hours 
 # to winners in an academic context. Albeit, the confidence interval does cross 0.45.
 
-
-
 # PERMUTAITON TEST ATTEMPT (ONE-SAMPLE PERMUTATION TEST USING "ENVSTATS" PACKAGE)
 # link to method: https://search.r-project.org/CRAN/refmans/EnvStats/html/oneSamplePermutationTest.html
 
@@ -147,13 +149,13 @@ lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
 # my response variables do not meet many of the assumptions, I thought it might be useful to use a permutation 
 # test, which doesn't rely on many of the assumptions. I do not know if this method is actually correct, and next week
 # or for my final project I'm going to try implementing the method that I spoke about with Dr. Bolker, which is using 
-# a logistic regression.
+# a logistic regression. The models I constructed in this assignment are obviously not ideal because my data violate many of 
+# of the important assumptions, so I think in the coming weeks I will focus on constructing a model that better fits my data.
 
-# My null hypotheses are that funds allocated to winners will equal 0.5, and coaching hours 
-# allocated will equal 0.5.
+# For the permuation test, my null hypotheses are that funds allocated to winners will equal 0.5, and coaching hours 
+# allocated to winners will equal 0.5.
 
 # One-sample permutation test on money to winner being different from 0.5.
-
 
 money.to.winner <- WLdata$prop.money.to.winner
 
