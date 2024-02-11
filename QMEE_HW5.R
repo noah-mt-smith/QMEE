@@ -198,8 +198,8 @@ perm.test.coach.academic <- EnvStats::oneSamplePermutationTest(WLdata_academic$p
 print(perm.test.coach.academic)
 plot(perm.test.coach.academic)
 
-# The permutation tests indicate that the means of my response variables (money allocated and coaching hours allocated) are 
-# clearly different from 0.5 (with the exception of proportion of coaching allocated to winners in the athletic
-# context). However, the confidence intervals and effect sizes I computed above are more informative, but 
-# it's important to note that the models they arose from violate several important assumptions, 
+# The permutation tests indicate that the means of my response variables (money allocated and coaching hours allocated) 
+# are clearly different from 0.5 (with the exception of proportion of coaching allocated to winners in the athletic
+# context). The confidence intervals and effect sizes I computed above are potentially more informative, 
+# but it's important to note that the models they arose from violate several important assumptions, 
 # while the permutation test (I think) avoids such assumptions.
