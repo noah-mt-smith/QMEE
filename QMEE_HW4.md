@@ -32,14 +32,18 @@ Therefore, the probability of having MMV given a positive test result is 0.168.
 
 I'm not sure what I could tell them without more information. I know the baseline positive rate in the population is 5.95%, but the test can't tell them anything definitive unless we know more--for example, what are their symptoms? If they began insisting that we should stop cherishing p-values and should instead supplement them with effect sizes and confidence intervals, I would likely encourage them to visit their local statistician for a more expert opinion.
 
+**BMB**: OK. You might be interested in knowing *why* they got the test (did they have symptoms, were they exposed?).
+
 
 HYPOTHESIS FOR MY DATA: 
 
-For data, see the file WL_soc_clean.csv. The below predictions correspond to the columns "prop.money.to.winner" and "prop.coach.to.winner".
+For data, see the file `WL_soc_clean.csv`. The below predictions correspond to the columns `prop.money.to.winner` and `prop.coach.to.winner`.
 
 I predict that humans are biased towards rewarding winners. When given a choice to allocate finite funds and coaching hours to winners and losers in a fictional story, I predict that participants will allocate greater than 0.5 of their available funds and coaching hours to the winner.
 
 I will test my prediction using a one-sample permutation test using the {EnvStats} package. I will compare my observed distribution to a null distribution that centers around 0.5.
+
+**BMB: if you use a Beta-distributed response (which you can do e.g. in the `glmmTMB` package), and use a logit link, testing the intercept against a value of zero will correspond to testing a null hypothesis of 0.5, *and* you will get confidence intervals on the bias ...
 
 I will do this for both the proportion of funds allocated to winners and the proportion of coaching hours allocated to the winners.
 
@@ -47,3 +51,4 @@ I initially thought a one-sample t-test would be appropriate (comparing my data 
 
 Although the permutation test will provide me with a p-value, I should also calculate 95% confidence intervals for both funds allocated to winners and coaching hours allocated to winners. I can observe how these confidence intervals interact with my null hypothesis of 0.5 money allocated to both winners and losers. If my confidence intervals crossed 0.5, it wouldn't necessarily mean that there is no effect, it would just mean that the effect is unclear given my study and statistics. Furthermore, based on prior knowledge of studies in related fields, I consider a difference of about 0.10 in allocation between winners and losers (i.e., 0.55 to winners, 0.45 to losers, or vice versa), could be considered a "large" effect. I would thus set "cutoffs" about 0.05 above and 0.05 below my baseline of 0.5.
 
+**BMB: good. Mark, 2.2**
