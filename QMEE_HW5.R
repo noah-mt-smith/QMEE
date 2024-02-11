@@ -12,7 +12,7 @@ library(lsr)
 WLdata <- read.csv("WL_soc_clean.csv")
 
 # for some reason the diagnostic plots (performance::check_model()) do not work when I use all five levels of gender, so I've
-# once again created a dataframe that only has two levels of gender. 
+# created a dataframe that only has two levels of gender. 
 
 WLdata_cis <- (WLdata
                %>% filter(grepl("cisgender", participant.gender))
@@ -21,7 +21,7 @@ WLdata_cis <- (WLdata
 money_lm <- lm(prop.money.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis)
 performance::check_model(money_lm)
 
-# the check_model() function shows that my model money_lm does not meet several important assumptions. Importantly, it does not 
+# the check_model() function shows that my model 'money_lm' does not meet several assumptions. Importantly, it does not 
 # the homogeneity of variance assumption, indicating that my response variable varies inconsistently depending on the levels of my predictor. 
 
 coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis)
@@ -57,8 +57,6 @@ performance::check_model(coaching_lm_asin)
 # as I now have (transformed) proportion values that are above 1. So I believe that the arcsine transformation is probably 
 # not the way to go, and I'm going to try a square root transformation here instead.
 
-# Next, I'm going to try a sqrt transformation to see if this does anything to help the heteroscedasticity of my data.
-
 WLdata_cis_sqrt <- (WLdata_cis
     %>% mutate(prop.money.to.winner = sqrt(prop.money.to.winner))
     %>% mutate(prop.coach.to.winner = sqrt(prop.coach.to.winner))
@@ -90,7 +88,7 @@ performance::check_model(coaching_lm_log)
 # seeing as none of these transformations really improved the homoscedasticity of my data, I'm just going to stick with my 
 # initial linear models ('money_lm' and 'coaching_lm') which contained the untransformed response variables. I will compute 
 # inferential plots that have confidence intervals for these two response variables. I'm going to compare my two response
-# variables to a mean of 0.5 (my nulls), but I've also added two other hashmarks at ±0.05 of the null to indicate what I would
+# variables to a mean of 0.5 (my nulls), but I've also added two other hashmarks at ±0.05 of the null (0.45 and 0.55) to indicate what I would
 # consider a substantial effect.
 
 library(emmeans)
@@ -103,7 +101,8 @@ plot(emmean_money) + geom_vline(xintercept = 0.5, lty = 2) + geom_vline(xinterce
 # This inferential plot shows that the confidence intervals for the two levels of my first response variable (money allocated to winner)
 # do not overlap 0.5, indicating that there is significantly more allocation of money to winners in both types of competitive contexts
 # (academic and athletic). Also, they do not cross the ±0.05 threshold that I indicated I'd use as a litmus test for the 
-# effect size. However, to be sure, I am going to compute effect size statistics by comparing them to a mean of 0.5. 
+# effect size. However, to be sure, I am going to compute effect size statistics by comparing the two levels of my first response variable
+# to a mean of 0.5. 
 
 # First I'm going to create two dataframes that I can use to extract the values I want for the cohen's d calculations.
 
@@ -121,7 +120,7 @@ lsr::cohensD(WLdata_academic$prop.money.to.winner, mu = 0.5)
 # Both of these effect sizes are fairly large and positive (around 0.8), indicating that there is a fairly strong bias to allocate 
 # more money to winners in athletic and academic contexts. 
 
-# I am also going to create the same emmeans plot and calculate the effect sizes for the amount of coaching hours allocated.
+# I am also going to create the same emmeans plot and calculate the effect sizes for the amount of coaching hours allocated to the winner.
 
 emmean_coaching <- emmeans(coaching_lm, specs = "comp.context")
 
@@ -140,7 +139,7 @@ lsr::cohensD(WLdata_athletic$prop.coach.to.winner, mu = 0.5)
 lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
 
 # This is a medium to strong negative effect. The data suggest that we may be biased to giving fewer coaching hours 
-# to winners in an academic context. Albeit, the confidence interval does cross 0.45.
+# to winners in an academic context. Albeit the confidence interval does cross 0.45.
 
 # PERMUTAITON TEST ATTEMPT (ONE-SAMPLE PERMUTATION TEST USING "ENVSTATS" PACKAGE)
 # link to method: https://search.r-project.org/CRAN/refmans/EnvStats/html/oneSamplePermutationTest.html
@@ -157,32 +156,50 @@ lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
 
 # One-sample permutation test on money to winner being different from 0.5.
 
-money.to.winner <- WLdata$prop.money.to.winner
-
-perm.test.money <- EnvStats::oneSamplePermutationTest(money.to.winner, 
+perm.test.money.athletic <- EnvStats::oneSamplePermutationTest(WLdata_athletic$prop.money.to.winner, 
       alternative = "two.sided",
       mu = 0.5,
       exact = FALSE,
       n.permutations = 100000
 )
  
-print(perm.test.money)
-plot(perm.test.money)
+print(perm.test.money.athletic)
+plot(perm.test.money.athletic)
 
-# One-sample permutation test on coaching hours to winner being different from 0.5.
-
-coaching.to.winner <- WLdata$prop.coach.to.winner
-
-perm.test.coaching <- EnvStats::oneSamplePermutationTest(coaching.to.winner, 
+perm.test.money.academic <- EnvStats::oneSamplePermutationTest(WLdata_academic$prop.money.to.winner, 
      alternative = "two.sided",
      mu = 0.5,
      exact = FALSE,
      n.permutations = 100000
 )
 
-print(perm.test.coaching)
-plot(perm.test.coaching)
+print(perm.test.money.academic)
+plot(perm.test.money.academic)
+
+# One-sample permutation test on coaching hours to winner being different from 0.5.
+
+perm.test.coach.athletic <- EnvStats::oneSamplePermutationTest(WLdata_athletic$prop.coach.to.winner, 
+     alternative = "two.sided",
+     mu = 0.5,
+     exact = FALSE,
+     n.permutations = 100000
+)
+
+print(perm.test.coach.athletic)
+plot(perm.test.coach.athletic)
+
+perm.test.coach.academic <- EnvStats::oneSamplePermutationTest(WLdata_academic$prop.coach.to.winner, 
+     alternative = "two.sided",
+     mu = 0.5,
+     exact = FALSE,
+     n.permutations = 100000
+)
+
+print(perm.test.coach.academic)
+plot(perm.test.coach.academic)
 
 # The permutation tests indicate that the means of my response variables (money allocated and coaching hours allocated) are 
-# sufficiently different from 0.5, 
-
+# clearly different from 0.5 (with the exception of proportion of coaching allocated to winners in the athletic
+# context). However, the confidence intervals and effect sizes I computed above are more informative, but 
+# it's important to note that the models they arose from violate several important assumptions, 
+# while the permutation test (I think) avoids such assumptions.
