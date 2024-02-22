@@ -10,14 +10,54 @@ My two main response variables (proportion of funds allocated to winner and prop
 
 ### Question 2a:
 
-For your continuous response variable, and focusing on one (or at most two) predictors ( continuous or factors) you will be using from your dataset for this class, provide what measures of effect you plan to use. Please explain your rationale fully, including any historical precedent in your field (what is typically used in studies similar to yours), and why you do (or do not) agree with the historical precedent.
-
 For both of my continuous response variables (proportion of funds allocated to winner and proportion of coaching hours allocated to the winner), I will be using Cohen's d. Although Nakagawa & Cuthill (2007) note that Hedges' G provides a "correction" to Cohen's d, but that Hedges' G is most useful for investigations with fairly low sample sizes. Underpowered studies/studies with small sample sizes are more prone to generating inflated effect sizes, and Hedges' G remedies that problem. However, since my study is appropriately powered (having 170 individuals, or about 85 observations for the two competitive contexts, and it met the threshold outlined in an a priori power analysis), I feel that using Cohen's d is appropriate here. In particular, I will calculate a standardized effect comparing the mean proportion of funds and coaching hours allocated to the winner to my null of 0.5.
 
-The historical context of Cohen's d is somewhat dicey, as it has (potentially) contributed to the replication crisis in experimental psychology and sociology. For several decades, underpowered samples in experimental psychology generated deflated p-values and inflated effect sizes, the latter of which were often calculated with Cohen's d (either that, or effect size estimates were completely omitted) (Nakagawa and Cuthill, 2007; Simmons et al., 2011). Tiny p-values and inflated effect sizes have fostered confusion and frustration among modern experimental psychologists and the general public. For example, many of the results on subconscious priming or unconscious biases in Daniel Kahneman's "Thinking Fast and Slow" does not replicate, despite low p-values and promising effect sizes. Although Kahneman has since addressed these issues (Yong, 2012), I do not agree with the historical precedent for using Cohen's d, as it often didn't include pondering a typical effect size in the field or the power required to reliably detect the effect of study. The ultimate impact and reach of these inflated effects highlights the importance of developing a proper philosophy around analysis, interpretation, and reporting of effect sizes.
+The historical context of Cohen's d is somewhat dicey, as it has (potentially) contributed to the replication crisis in experimental psychology and sociology. For several decades, underpowered samples in experimental psychology generated deflated p-values and inflated effect sizes, the latter of which were often calculated with Cohen's d (either that, or effect size estimates were completely omitted) (Nakagawa and Cuthill, 2007; Simmons et al., 2011). Tiny p-values and inflated effect sizes have fostered confusion and frustration among modern experimental psychologists and the general public. For example, many of the results on subconscious priming or unconscious biases in Daniel Kahneman's "Thinking Fast and Slow" does not replicate, despite low p-values and promising effect sizes. Although Kahneman has since addressed these issues (Yong, 2012), I do not agree with the historical precedent for using Cohen's d in my field, as it often didn't include pondering a typical effect size in the field or the power required to reliably detect the effect of study. The ultimate impact and reach of these inflated effects highlights the importance of developing a proper philosophy around analysis, interpretation, and reporting of effect sizes.
+
+References
 
 Nakagawa, S., & Cuthill, I. C. (2007). Effect size, confidence interval and statistical significance: a practical guide for biologists. *Biological reviews*, *82*(4), 591-605.
 
 Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. *Psychological science,* 22(11), 1359-1366.
 
 Yong, E. (2012). Nobel laureate challenges psychologists to clean up their act. Nature, 490, 7418.
+
+### Question 2b
+
+I'll be computing two effect size estimates using Cohen's d—one effect size estimate for each of the two response variables (proportion of funds allocated to winner and proportion of coaching hours allocated to winner). Both effect size estimates will represent a one-sample comparison; I'm comparing the sample mean of the two response variables to my null value of 0.5. For the two effect size estimates, I'm using solely standard deviation of the relevant response variable to scale the effect size measure (not a pooled standard deviation measure). Scaling via standard deviation is advantageous as it allows for more reliable comparisons of effect sizes across studies and for meta-analytic approaches if desired (but see 2c for some caveats on this). Also, for my own follow-up studies, having this measure of effect size scaled by standard deviation will give me a better reference point for power and sample size.
+
+### Question 2c
+
+c\. For the effect size you have chosen please provide a few benefits (can overlap with what your wrote in a or b), but also a few possible “negatives” in how you (and the rest of the field) will ultimately be able to use this to advance science in your field (from your study in particular)?
+
+First, the positive aspects of using Cohen's d scaled with sample standard deviation is that it may allow me to compare my own effect size estimates to some others in my field. For example, last Fall I conducted a study on human winner and loser effects in videogames (Smith & Dukas, 2024), and I'll be able to compare the effect size estimates I get from this investigation to the estimates I got in that investigation. This will allow me to generate a more cohesive PhD thesis, as I will be able to comment on the relative size of these effects in comparison to one another. Similarly, I will be able to use my past and future effect size estimates to inform power analyses for follow-up studies. Furthermore, external investigators may be able to include my reported effect size measures in a meta-analysis to generate more insight into the true effect sizes of these measures. Importantly, individuals from other fields may also be able to use the effect size measures I've generated to inform how they design their own studies. My own investigation of allocation to "winners" and "losers" ties into human evolutionary psychology, behavioural economics, sociology, and equity studies, so all of these fields may be able to use my standardized effect sizes to give them an idea of what to expect when they are studying things like how people split up resources based on context.
+
+Unfortunately, the effect size estimates I generate in this study will suffer from several shortcomings. First, when attempting to compare them to other effect size estimates—including my own from the other investigations I've run—I run into some immediate issues. The methodologies of my earlier investigations and this investigation are different, so it's clear the comparison will not be a perfect 1:1 representation. For example, if I find an effect size of 0.8 here, and initially found an effect size of 0.2 in my original study, it would be improper to say that "this effect is four times as large as my earlier effects." Although it would seem that way on paper, I have to acknowledge that this methodology employs self-report measures, while my earlier investigations employed behavioural measures.
+
+positives
+
+-   comparability
+
+-   meta-analyses
+
+-   follow-up studies
+
+-   compare to other variables
+
+negatives
+
+-   impression of comparability when in fact methods are completely different.
+
+-   inter-study design variation (self-report, not an actual behaviour)
+
+-   used pooled standard deviation in a previous study, whereas in this one I am using sample standard deviation because it's one-sample comparison.
+
+-   inter-study sample variation (WEIRD sample).
+
+### Question 2d
+
+d\. Using what you learned from watching the video from Dr. Megan Higgs, on the Meaning of Magnitude, I would like you to develop a scale of magnitudes (Backdrop of meaning in magnitude) for your own work and for the measure of effect you are using. Please feel free to use any prior sources of literature from your field to help develop this. Explain your rationale for regions that you a priori consider to be unlikely of biological/environmental/clinical significance, VS. the “grey area” VS. regions of practical relevance?
+
+### Question 2e
+
+e\. Using the BoMM scale outlined in the figure below, how would you interpret, and what inferences would you draw (don’t forget about the concept of the “counter-null”) from the following estimates (1-7)? Each horizontal black line represents the 95% confidence interval (compatibility interval if you prefer a more generic term) for estimates from 7 distinct experiments testing the effect of different mutants compared to corresponding wild types for a trait of interest. For each experiment, please (in 1-2 sentences each) explain what you would infer in terms of meaningfulness and uncertainty (and anything else).
