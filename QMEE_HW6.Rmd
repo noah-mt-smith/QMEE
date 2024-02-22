@@ -28,31 +28,17 @@ I'll be computing two effect size estimates using Cohen's d—one effect size es
 
 ### Question 2c
 
-c\. For the effect size you have chosen please provide a few benefits (can overlap with what your wrote in a or b), but also a few possible “negatives” in how you (and the rest of the field) will ultimately be able to use this to advance science in your field (from your study in particular)?
-
 First, the positive aspects of using Cohen's d scaled with sample standard deviation is that it may allow me to compare my own effect size estimates to some others in my field. For example, last Fall I conducted a study on human winner and loser effects in videogames (Smith & Dukas, 2024), and I'll be able to compare the effect size estimates I get from this investigation to the estimates I got in that investigation. This will allow me to generate a more cohesive PhD thesis, as I will be able to comment on the relative size of these effects in comparison to one another. Similarly, I will be able to use my past and future effect size estimates to inform power analyses for follow-up studies. Furthermore, external investigators may be able to include my reported effect size measures in a meta-analysis to generate more insight into the true effect sizes of these measures. Importantly, individuals from other fields may also be able to use the effect size measures I've generated to inform how they design their own studies. My own investigation of allocation to "winners" and "losers" ties into human evolutionary psychology, behavioural economics, sociology, and equity studies, so all of these fields may be able to use my standardized effect sizes to give them an idea of what to expect when they are studying things like how people split up resources based on context.
 
-Unfortunately, the effect size estimates I generate in this study will suffer from several shortcomings. First, when attempting to compare them to other effect size estimates—including my own from the other investigations I've run—I run into some immediate issues. The methodologies of my earlier investigations and this investigation are different, so it's clear the comparison will not be a perfect 1:1 representation. For example, if I find an effect size of 0.8 here, and initially found an effect size of 0.2 in my original study, it would be improper to say that "this effect is four times as large as my earlier effects." Although it would seem that way on paper, I have to acknowledge that this methodology employs self-report measures, while my earlier investigations employed behavioural measures.
+Unfortunately, the effect size estimates I generate in this study will suffer from several shortcomings. First, when attempting to compare them to other effect size estimates—including my own from the other investigations I've run—I run into some immediate issues. The methodologies of my earlier investigations and this investigation are different, so it's clear the comparison will not be a perfect 1:1 representation. For example, if I find an effect size of 0.8 here, and initially found an effect size of 0.2 in my original study, it would be improper to say that "this effect is four times as large as my earlier effects." Although it would seem that way on paper, I have to acknowledge that the current methodology employs self-report measures for the response variables, while my earlier investigations employed behavioural measures for the response variables. So, one immediate drawback is that Cohen's d makes it *seem* like my earlier results and current results are highly comparable, when in fact the story is more complicated than that. For example, since my current investigation used self-report measures, the response variables could be slightly skewed by impression management (Lajunjen & Summala, 2003). I.e., participants could report in a way that upheld their self-image, as opposed to reporting in a fully honest way. Conversely, the response variables in my first investigations relied on recording participant behaviour, meaning they would be less or not at all prone to impression management. I would hope that when other investigators try to interpret my reported effect size measures, they also consider these issues. However, I would also be as transparent as possible while discussing the effects. Also, my previous investigations used a pooled standard deviation measure to scale effect size, while this investigation uses a sample standard deviation to scale effect size. This could also influence the relative size of the effects, as a pooled standard deviation will tend to be less noisy, while a sample standard deviation might be more prone to generating atypically high or low values, potentially inflating or deflating the effect size. Finally, although I feel like I'm beating a dead horse, my sample is (unfortunately) WEIRD (Henrich et al., 2010). My participants are all Western, Educated, Industrialized, Rich, and Democratic (WEIRD), since I sampled from McMaster's undergraduate students. Since I sampled specifically from students taking an undergraduate psychology course, my sample inevitably contains far less variation than the ideal sample should in behavioural science. Individuals trying to make conclusions about behaviour in other cultures based on my reported effect sizes should use caution.
 
-positives
+References
 
--   comparability
+Henrich, J., Heine, S. J., & Norenzayan, A. (2010). Most people are not WEIRD. Nature, 466(7302), 29-29.
 
--   meta-analyses
+Lajunen, T., & Summala, H. (2003). Can we trust self-reports of driving? Effects of impression management on driver behaviour questionnaire responses. Transportation research part F: traffic psychology and behaviour, 6(2), 97-107.
 
--   follow-up studies
-
--   compare to other variables
-
-negatives
-
--   impression of comparability when in fact methods are completely different.
-
--   inter-study design variation (self-report, not an actual behaviour)
-
--   used pooled standard deviation in a previous study, whereas in this one I am using sample standard deviation because it's one-sample comparison.
-
--   inter-study sample variation (WEIRD sample).
+Smith, N. M., & Dukas, R. (2024). Winner and loser effects in humans: evidence from randomized trials. Animal Behaviour, 207, 101-107.
 
 ### Question 2d
 
