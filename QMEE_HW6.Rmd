@@ -44,6 +44,8 @@ Smith, N. M., & Dukas, R. (2024). Winner and loser effects in humans: evidence f
 
 d\. Using what you learned from watching the video from Dr. Megan Higgs, on the Meaning of Magnitude, I would like you to develop a scale of magnitudes (Backdrop of meaning in magnitude) for your own work and for the measure of effect you are using. Please feel free to use any prior sources of literature from your field to help develop this. Explain your rationale for regions that you a priori consider to be unlikely of biological/environmental/clinical significance, VS. the “grey area” VS. regions of practical relevance?
 
+![](hw6_q2d_figure.jpg)
+
 ### Question 2e
 
 1: The confidence interval for this effect is visibly within only the “not of practical/meaningful biological relevance”, so I would interpret it as such. Although there is a significant (or “clear”) effect, our a priori criteria indicates that the effect has no practical implications for our system/investigation.
