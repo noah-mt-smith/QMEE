@@ -1,3 +1,7 @@
+---
+---
+---
+
 # Noah Smith QMEE homework 6
 
 ### Question 1a:
@@ -46,4 +50,16 @@ d\. Using what you learned from watching the video from Dr. Megan Higgs, on the 
 
 ### Question 2e
 
-e\. Using the BoMM scale outlined in the figure below, how would you interpret, and what inferences would you draw (don’t forget about the concept of the “counter-null”) from the following estimates (1-7)? Each horizontal black line represents the 95% confidence interval (compatibility interval if you prefer a more generic term) for estimates from 7 distinct experiments testing the effect of different mutants compared to corresponding wild types for a trait of interest. For each experiment, please (in 1-2 sentences each) explain what you would infer in terms of meaningfulness and uncertainty (and anything else).
+1: The confidence interval for this effect is visibly within only the “not of practical/meaningful biological relevance”, so I would interpret it as such. Although there is a significant (or “clear”) effect, our a priori criteria indicates that the effect has no practical implications for our system/investigation.
+
+2: This effect’s confidence interval indicates that there could be many things going on here. Based solely on NHST, this would be a non-significant (or statistically unclear) effect, since the confidence interval overlaps zero. However, it would be premature to draw any strong conclusions about the effect, and I would prefer to discuss this with my colleagues or collect more data if possible.
+
+3: There is a clear (significant) effect (as the confidence interval doesn’t overlap 0), that is within our a priori range of “biologically relevant”. Based on our a priori criteria, I would infer that this effect is important to our investigation.
+
+4: There is a clear (significant) effect, but I’m uncertain about making strong inferences. Although most of the effect’s confidence interval is in the “biologically relevant” section, it also crosses into the “grey area”. I would exercise caution in interpreting the effect. However, it is likely important to our investigation an I would discuss it with my colleagues or collect more data if possible.
+
+5: There is a clear (significant) effect, but it is distributed across “not biologically relevant”, “grey area”, and “biologically relevant”. It’s therefore difficult to make any strong inferences about this result, so I would discuss it with my colleagues and would prefer to collect more data if possible.
+
+6: There is a clear (significant) effect, but it is quite small, distributed evenly between the “not biologically relevant” and “grey area” sections. Our a priori criteria indicate that this effect is likely not very important to our investigation.
+
+7: There is an unclear (or non-significant) effect, since the confidence interval overlaps 0. However, even if the effect were statistically clear (e.g., if we collected more data and the confidence interval shrunk slightly and no longer crossed 0), the effect would still not carry any biological relevance for our investigation.
