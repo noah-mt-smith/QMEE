@@ -44,7 +44,13 @@ Smith, N. M., & Dukas, R. (2024). Winner and loser effects in humans: evidence f
 
 d\. Using what you learned from watching the video from Dr. Megan Higgs, on the Meaning of Magnitude, I would like you to develop a scale of magnitudes (Backdrop of meaning in magnitude) for your own work and for the measure of effect you are using. Please feel free to use any prior sources of literature from your field to help develop this. Explain your rationale for regions that you a priori consider to be unlikely of biological/environmental/clinical significance, VS. the “grey area” VS. regions of practical relevance?
 
+Here is the a priori "meaningfulness" scale that I have developed for my effect size measures:
+
 ![](hw6_q2d_figure.jpg)
+
+To create this scale, I have referred to my own prior reported effect sizes on how humans react to wins and losses (Smith & Dukas, 2024), although these were behavioural investigations instead of self-report investigations. I expect that the effect size measures of this self-report study to be slightly larger than the reported effect size measures in my prior behavioural experiments, which were around d = 0.2. Because I think the current study's values will be inflated due to the study's self-report nature, and concerns for impression management when allocating hypothetical money or coaching to other individuals. Because of this potential inflation, I set a "meaningfulness threshold" with an absolute value 0.2. I.e., any effect size between -0.2 and 0.2 I will consider "not meaningful".
+
+Smith, N. M., & Dukas, R. (2024). Winner and loser effects in humans: evidence from randomized trials. Animal Behaviour, 207, 101-107.
 
 ### Question 2e
 
