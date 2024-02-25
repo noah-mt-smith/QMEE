@@ -14,6 +14,8 @@ WLdata <- read.csv("WL_soc_clean.csv")
 # for some reason the diagnostic plots (performance::check_model()) do not work when I use all five levels of gender, so I've
 # created a dataframe that only has two levels of gender. 
 
+## JD: This seems bizarre; certainly we shouldn't spend much time on the model performance wants instead of the model that you want.
+
 WLdata_cis <- (WLdata
                %>% filter(grepl("cisgender", participant.gender))
 )
@@ -24,12 +26,16 @@ performance::check_model(money_lm)
 # the check_model() function shows that my model 'money_lm' does not meet several assumptions. Importantly, it does not 
 # the homogeneity of variance assumption, indicating that my response variable varies inconsistently depending on the levels of my predictor. 
 
+## JD: this is interesting, too. The plot actually looks pretty good to me, but there is _definitely_ a conceptual problem with this model, which is that we can be getting close to the “boundary” of 100%.
+
 coaching_lm <- lm(prop.coach.to.winner ~ participant.gender + comp.context + char.age + winner.name, data = WLdata_cis)
 performance::check_model(coaching_lm)
 
 # My coaching_lm violates even more assumptions than my money_lm, and the posterior predicive check is especially odd. However, 
 # at least the observed data in the posterior predictive check somewhat resembles the predicted (blue) line, as they are 
 # both normal (although the observed data is far noisier)
+
+## JD: Again, this doesn't look terrible. In addition to the boundary problem, we seem to have a smoothness problem with the data: the values seem to be round numbers. This doesn't seem like a huge problem, and will definitely be hard to deal with.
 
 # In general, both of these lms violate several of the assumptions, and I think (most importantly) the homogeneity of variance
 # assumption.
@@ -41,6 +47,8 @@ performance::check_model(coaching_lm)
 
 # I started with an arcsine transformation because on tuesday Dr. Bolker said this is sometimes (but not always) appropriate for proportion data.
 
+## JD: Pretty sure Bolker said it's usually better _not_ to do this -- that said, proportion data that _aren't_ based on counts can be very tricky.
+
 WLdata_cis_asin <- (WLdata_cis
     %>% mutate(prop.money.to.winner = asin(prop.money.to.winner))
     %>% mutate(prop.coach.to.winner = asin(prop.coach.to.winner))
@@ -51,11 +59,12 @@ coaching_lm_asin <- lm(prop.coach.to.winner ~ participant.gender + comp.context 
 performance::check_model(money_lm_asin)
 performance::check_model(coaching_lm_asin)
 
-
 # Heteroscedasticity looks a bit lower in the arcsine transformation, especially for the "money" linear model. 
 # However, The obvious issue with this is that it's hard for me to interpret this transformed data with regards to my null, 
 # as I now have (transformed) proportion values that are above 1. So I believe that the arcsine transformation is probably 
 # not the way to go, and I'm going to try a square root transformation here instead.
+
+## JD: Again, if this is the model we want, we should definitely be able to figure out how to interpret it. You are the boss of your statistical analyses.
 
 WLdata_cis_sqrt <- (WLdata_cis
     %>% mutate(prop.money.to.winner = sqrt(prop.money.to.winner))
@@ -74,6 +83,8 @@ performance::check_model(coaching_lm_sqrt)
 # I've decided to to do a log(1+x) transformation, which I can do using the log1p() command in tidyverse. Again, I am not
 # plotting any summary tables or anything, I just want to see if these transformations can help improve the homoscedasticity 
 # of my response variables.
+
+## JD: This does not seem sensible for proportion data; it doesn't respect the symmetry of the proportion (I guess sqrt doesn't either), and it loses track of your null value (although you could fix that if it were otherwise good). Be suspicious in general of log(1+x) for analysis, unless you know exactly what 1 means in the context and units of x.
 
 WLdata_cis_log <- (WLdata_cis
     %>% mutate(prop.money.to.winner = log1p(prop.money.to.winner))
@@ -129,6 +140,8 @@ plot(emmean_coaching) + geom_vline(xintercept = 0.5, lty = 2) + geom_vline(xinte
 
 # These confidence intervals indicate that there is a significant but small effect for allocating more coaching hours 
 # to winners in the athletic context. However, this does not cross our ±0.05 threshold (i.e., it isn't over 0.55).
+## JD: Be more careful: we're _not sure_ whether the population effect crosses the threshold or not.
+
 # Conversely, the data suggest a clear and slightly stronger tendency to award fewer coaching hours to winners 
 # in an academic context. I have computed effect sizes on these two means below.
 
@@ -155,6 +168,8 @@ lsr::cohensD(WLdata_academic$prop.coach.to.winner, mu = 0.5)
 # allocated to winners will equal 0.5.
 
 # One-sample permutation test on money to winner being different from 0.5.
+
+## JD: This is an interesting try, but we should talk about how to make a permutation test that matches your actual model assumptions.
 
 perm.test.money.athletic <- EnvStats::oneSamplePermutationTest(WLdata_athletic$prop.money.to.winner, 
       alternative = "two.sided",
@@ -203,3 +218,6 @@ plot(perm.test.coach.academic)
 # context). The confidence intervals and effect sizes I computed above are potentially more informative, 
 # but it's important to note that the models they arose from violate several important assumptions, 
 # while the permutation test (I think) avoids such assumptions.
+## JD: The current permutation test ignores potentially important covariates, though
+
+## Grade 2/3
