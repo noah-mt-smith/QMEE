@@ -166,7 +166,7 @@ plot(emmean_coaching) + xlim(-0.5,0.5) + geom_vline(xintercept = 0, lty = 3) +
 # to winners (since in my raw response variable, a probability of 0.5 (odds of 1) would indicate no bias,
 # the log odds scale equivalent of that is ln(1) or 0). In both of these plots, we can 
 # see that only one of the eight confidence intervals crosses the 0 line (which is equivalent to 0.5 in the
-# raw response variable). This suggests that a) there is a strong bias to allocate more money to winners than 
+# raw response variable). So within my respondents, I detected a) a strong bias to allocate more money to winners than 
 # to losers across genders and contexts, and b) that in terms of coaching hours, it depends on gender and the context of the competition. 
-# In academics, it seems like people tend to want to help those struggling, while in athletics, it seems people 
-# want to recruit and coach stronger players (at least for males, while for females I have not detected a clear effect).
+# In academics, it seems like the respondents tended to want to help those struggling, while in athletics, it seems the respondents 
+# wanted to recruit and coach stronger players (at least for males, while for females I have not detected a clear effect). 
