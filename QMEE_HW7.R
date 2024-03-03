@@ -8,7 +8,7 @@ library(ggplot2); theme_set(theme_linedraw())
 
 WLdata <- read.csv("WL_soc_clean.csv")
 
-# for the sake of power, I have excluded responses from individuals who reported
+# for the sake of power and reliability, I have excluded responses from individuals who reported
 # in one of the non-cisgender levels of the "gender" predictor. As "nonbinary" 
 # and "transgender man" included only one response each, and prefer not to answer
 # included 3.
@@ -87,9 +87,6 @@ BetaLogCoaching <- glmmTMB(coaching.to.winner ~ participant.gender
                    + comp.context + char.age + winner.name, 
                    data = WLdata_cis, family = beta_family(link="logit"))
 
-summary(BetaLogMoney)
-summary(BetaLogCoaching)
-
 # Now that I've constructed my models, I would like to check them with DHARMa.
 
 DHARMa::testDispersion(BetaLogMoney, plot = "F")
@@ -118,6 +115,21 @@ DHARMa::testResiduals(BetaLogCoaching, plot = T)
 # also look okay as well (especially the dispersion plot). The dispersion plot is again 
 # a graphical depiction of the dispersion value generated above.
 
+# I also need to test the predicted vs. observed
+# residuals of my model at each quantile level. 
+
+testQuantiles(BetaLogMoney)
+testQuantiles(BetaLogCoaching)
+
+# Based on these two diagnostic plots, it seems like my model
+# fits my data fairly well. For the money plot, the fit
+# is extremely close to the predicted fit. For the 
+# coaching plot, the fit is fairly close, except for the 
+# top quantile (0.75), which looks a bit wonky. However, 
+# this deviation likely isn't enough to cause any concern, 
+# especially given the good dispersion numbers for both response 
+# variables.
+
 # Finally, I would just like to recreate some of the inferential plots
 # that I made in assignment 5, but using the new GLM that I've created here. 
 # To do this, I'm going to use emmeans. 
@@ -139,6 +151,3 @@ plot(emmean_coaching) + xlim(-0.5,0.5) + geom_vline(xintercept = 0, lty = 3) +
 # overlap 0, it suggests that there is no bias for allocating funds
 # to winners (since in my raw response variable, a probability of 0.5 (odds of 1) would indicate no bias,
 # the log odds scale equivalent of that is ln(1) or 0).
-
-
-
