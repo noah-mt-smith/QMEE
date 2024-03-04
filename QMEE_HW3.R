@@ -25,11 +25,15 @@ summary(WLdata)
 # to see roughly what the sample of each boxplot is doing without simplifying the dataset too much, so 
 # I think they are an appropriate choice here.
 
+## JD: You could also try plotting points, but see below.
+
 money.gender.boxplot <- (ggplot(WLdata, aes(x = participant.gender, y= prop.money.to.winner)) + 
   geom_boxplot(fill="gray") + 
   labs(x="Gender", y = "Proportion of funds allocated to winner") + 
   ylim(0,1)
 )
+
+## JD: Better to not just leave genders in alphabetical order
 
 print(money.gender.boxplot)
 
@@ -134,14 +138,17 @@ print(coaching.cont.cis.boxplot)
 # we can create a scatter plot to see what kind of trend there is. I also initially fit a loess to it, 
 # but it was returning so many errors that I figure it is not a good method to use in the case of my data.
 
+## JD: Not clear why you prefer points in this case and boxplots in the other case. The numeric nature of age does not seem very relevant to me.
+## JD: These points are suspiciously regular, and presumably plotted on top of each other. You should scale the size of the points by their "counts" if you want to do it this way.
+## It seems dangerous to me not to use scale_size_area; not sure why that's not the default
+
 age.money.scatter <- (ggplot(WLdata_cis, aes(x = participant.age, y = prop.money.to.winner)) + 
-  geom_point() +
+  geom_count() + scale_size_area() +
 # geom_smooth() + # I had added this and it was working, but it was giving me a ton of warnings..., 
 # I just decided to comment it out.
   ylim(0,1) +
-  labs(x = "Participant age", y = "Proportion of money allocated to winner")
+  labs(x = "Participant ages", y = "Proportion of money allocated to winner")
 )
-
 print(age.money.scatter)
 
 # there seems to be a slight upward trend for awarding money to the winner as age increases, but there are so few observations in the 
@@ -263,5 +270,9 @@ plot(check_normality(WLdata_coaching_lm))
 plot(check_heteroscedasticity(WLdata_coaching_lm))
 plot(check_distribution(WLdata_coaching_lm))
 
+## JD: Not clear on what check_distribution does, but feeling skeptical.
+
 # In general, the diagnostic plots inform me that my data could probably be modeled more accurately, 
 # as many of the observed datapoints do not fall along the expected lines.
+
+## Nicely ambitious; 2.2/3
