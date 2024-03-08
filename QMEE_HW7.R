@@ -25,6 +25,8 @@ WLdata_cis <- (WLdata_cis
 
 summary(WLdata_cis) # checking that everything looks good with data
 
+## JD: Better to put the above in a separate script that saves an .rda file
+
 # now to create the GLMs
 
 # Since my response variables are proportion data, I'm going to use a beta distributed
@@ -170,3 +172,8 @@ plot(emmean_coaching) + xlim(-0.5,0.5) + geom_vline(xintercept = 0, lty = 3) +
 # to losers across genders and contexts, and b) that in terms of coaching hours, it depends on gender and the context of the competition. 
 # In academics, it seems like the respondents tended to want to help those struggling, while in athletics, it seems the respondents 
 # wanted to recruit and coach stronger players (at least for males, while for females I have not detected a clear effect). 
+
+## This is a nice effort, and I'm frustrated that I don't have clear answers for you.
+## If you are going to stick with this general approach, however, I would strongly recommend using a clear, symmetric, invertible transformation to move your observation away from the edge. The simplest one would be p-hat = f+(1-2f)*p. For your example, it seems like your scientific judgment would be to use f=0.1.
+
+## Grade 2/3
