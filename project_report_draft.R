@@ -5,6 +5,7 @@ library(ggplot2);theme_set(theme_linedraw())
 library(DHARMa)
 library(glmmTMB)
 library(forcats)
+library(emmeans)
 
 WLdata <- readRDS("WLdata.rds")
 
@@ -83,6 +84,6 @@ testQuantiles(GLMM_allocation)
 
 emmean_allocation <- emmeans(GLMM_allocation, specs = c("participant.gender", "resource", "comp.context"))
 summary(emmean_allocation)
-plot(emmean_allocation) + xlim(-1,1) + geom_vline(xintercept = 0, lty = 3) +  
+plot(emmean_allocation) + xlim(-1,1.1) + geom_vline(xintercept = 0, lty = 3) +  
   labs(x = "Log odds of proportion of resource allocated to winners", y = "")
 
