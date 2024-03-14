@@ -82,6 +82,8 @@ DHARMa::testResiduals(GLMM_allocation, plot = T)
 
 testQuantiles(GLMM_allocation)
 
+# all diagnostic plots look pretty good. Will explain in more detail for final
+
 emmean_allocation <- emmeans(GLMM_allocation, specs = c("participant.gender", "resource", "comp.context"))
 summary(emmean_allocation)
 plot(emmean_allocation) + xlim(-1,1.1) + geom_vline(xintercept = 0, lty = 3) +  
