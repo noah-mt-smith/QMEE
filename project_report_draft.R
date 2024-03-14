@@ -22,6 +22,7 @@ WLdata <- (WLdata
 # participants gave none or all of their resources to winners.
 
 ggplot(WLdata, aes(x = comp.context, y = prop.money.to.winner, fill = participant.gender)) + geom_boxplot()
+ggplot(WLdata, aes(x = comp.context, y = prop.coach.to.winner, fill = participant.gender)) + geom_boxplot()
 money.to.winner <- WLdata$prop.money.to.winner
 coaching.to.winner <- WLdata$prop.coach.to.winner
 
