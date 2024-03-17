@@ -113,7 +113,33 @@ mcmc_trace(b_custom1, regex_pars = "b_|sd_")
 # The plots are a bit "spiky", which could be due to potential skewness
 # in my response variables, but overall they don't look too bad.
 
+# Now to look at the actual results of my model
 
+summary(b_custom1)
+
+# Overall, the summary table echoes what I see in my trace plots. 
+# The intercept value (coaching hours) is about 0.47, so slightly 
+# below my prior assumption of 0.5. For money, the estimate is about 0.17 with 
+# a credible interval from 0.16 to 0.19, indicating that my participants
+# were giving around 0.16 to 0.19 more money to winners than coaching hours
+# to winners.
+
+# now to plot the results from my summary table to get a better sense
+# of what they look like.
+
+res_bayes <- (b_custom1
+              |> purrr::map_dfr(~ tidy(., conf.int = TRUE), .id = "model")
+)
+
+# results for the 
+
+res_mod1 <- suppressMessages(mod1
+                             |> tidy(conf.int = TRUE, conf.method = "profile")
+                             |> mutate(model = "lmer", .before = 1)
+)
+
+ggplot(res_mod1, aes(estimate, term, colour = model, shape = model)) +
+  geom_pointrange(aes(xmin = conf.low, xmax = conf.high))
 
 
 
