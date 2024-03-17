@@ -4,6 +4,7 @@ library(lme4)
 library(brms)
 options(brms.backend = "cmdstanr")
 library(broom.mixed)
+library(broom)
 library(purrr)
 library(dplyr)
 library(tidybayes)
@@ -127,26 +128,57 @@ summary(b_custom1)
 # now to plot the results from my summary table to get a better sense
 # of what they look like.
 
-res_bayes <- (b_custom1
+brms_bayes <- (list(brms_custom1 = b_custom1))
+
+res_bayes_mod1 <- (brms_bayes
               |> purrr::map_dfr(~ tidy(., conf.int = TRUE), .id = "model")
 )
-
-# results for the 
 
 res_mod1 <- suppressMessages(mod1
                              |> tidy(conf.int = TRUE, conf.method = "profile")
                              |> mutate(model = "lmer", .before = 1)
 )
 
-ggplot(res_mod1, aes(estimate, term, colour = model, shape = model)) +
+res <- (bind_rows(res_bayes_mod1, res_mod1)
+        |> select(-c(std.error, statistic, component, group))
+        |> filter(term != "(Intercept)")
+        |> mutate(facet = ifelse(grepl("^cor", term), "cor",
+                                 ifelse(grepl("resource", term), "resource",
+                                        "int")))
+        |> mutate(across(model, ~ factor(., levels = c("lmer", names(brms_bayes)))))
+)
+
+ggplot(res, aes(estimate, term, colour = model, shape = model)) +
   geom_pointrange(aes(xmin = conf.low, xmax = conf.high))
 
+# The scale of these results is a little bit confusing, but is does
+# fairly closely match my results summary table that I produced with my 
+# above brms code. The intercept estimate for coaching hours is missing, 
+# but if we comment out the "|> filer(term != "(Intercept)")" code, then
+# we can see that the intercept (coaching) estimate is about 0.48 for both models. 
+# However, the way this figure is laid out, interpreting the result is a bit confusing
+# but this is due to how I've constructed the model. It's important to note 
+# that the "b" estimate (population level effect of money) is actually 
+# being "added" to the baseline intercept value of 0.5 (so people give about 
+# 0.16 to 0.19 than 0.5 money to winners (i.e. 0.66 to 0.69 ish), while the intercept 
+# (coaching) estimate of 0.48 is actually showing the true value--that 
+# people give about 0.48 of the coaching hours to winners).
+
+# We can also do some posterior predictive simulations of my data
+
+posterior_df <- WLdata_long |> add_predicted_draws(b_custom1)
+
+gg1 <- ggplot(posterior_df, aes(resource, .prediction)) +
+  rasterise(geom_line()) +
+  geom_point(aes(y=prop.allocated), col = "red") +
+  labs(y = "Proportion allocated to winner")
+
+gg1
 
 
-# old prior code:
 
-b_prior <- c(set_prior("normal(0.5,0.02)", "Intercept"),
-             set_prior("normal(0, 0.05)", "b"),
-             set_prior("normal(0.05, 0.01", "sigma"), 
-             set_prior("normal(0.05, 0.01", "sd")
-)             
+# Although this code should work, it requires the downloading and setting up 
+# of a software called xquartz, which I'm not quite familiar 
+# with the technicalities of. 
+
+
