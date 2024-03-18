@@ -15,10 +15,11 @@ library(see)
 options(ggplot2.discrete.colour= scale_color_okabeito)
 library(ggrastr)
 library(cowplot)
+library(Cairo)
 
 WLdata_long <- readRDS("WLdata_long.rds")
 
-View(WLdata_long)
+# View(WLdata_long)
 
 form1 <- (prop.allocated ~ resource + comp.context + participant.gender + (1|participant.id))
 
@@ -78,18 +79,21 @@ test_prior(b_prior)
 
 mod1 <- lmer(form1, WLdata_long)
 
-## beginning with default settings to see what happens
+## beginning with default settings to see what happens (commented out
+# because just gave a bunch of divergence warnings).
 
-b_default <- brm(form1, WLdata_long, seed = 15)
+# b_default <- brm(form1, WLdata_long, seed = 15)
 
-# it seems very unhappy about the defaults, so I'm going to customize things a bit
+# it seems very unhappy about the defaults, so I'm going to customize things a bit using my 
+# own previously set prior.
 
 b_custom1 <- brm(form1, WLdata_long, prior = b_prior, seed = 15, 
                  control = list(adapt_delta = 0.95)
                  )
 
 # it still seems very unhappy, even with the updated prior, so I'm not 
-# quite sure how to fix this.
+# quite sure how to fix this. I think this might have to do with the small size 
+# of my priors, but I'm not exactly sure.
 
 print(bayestestR::diagnostic_posterior(b_custom1),
       digits = 4)
@@ -168,17 +172,31 @@ ggplot(res, aes(estimate, term, colour = model, shape = model)) +
 
 posterior_df <- WLdata_long |> add_predicted_draws(b_custom1)
 
-gg1 <- ggplot(posterior_df, aes(resource, .prediction)) +
-  rasterise(geom_line()) +
-  geom_point(aes(y=prop.allocated), col = "red") +
-  labs(y = "Proportion allocated to winner")
+gg2 <- ggplot(posterior_df, aes(resource, .prediction, group = interaction(participant.id, .draw))) +
+  geom_jitter() + labs(y = "Proportion allocated to winner") + geom_point(aes(y = prop.allocated), col = "skyblue")
 
-gg1
+print(gg2)
 
+# This shows the posterior predicted distributions, however they are slightly odd because they are so wide
+# and include values above and below zero. I have a feeling they are so wide because the distribution of observed
+# data (the blue dots) is quite wide, and when combined with the prior distribution generates a much wider 
+# posterior, which unfortunately overlaps 1 and 0 (which is impossible). This may have been 
+# mitigated if I'd used a beta distributed response, but as I mentioned earlier, I tried that approach 
+# for a good amount of time and couldn't get past properly setting the priors.
 
+gg_violin <- ggplot(WLdata_long, aes(x = resource, y = prop.allocated)) + geom_violin()
+print(gg_violin)
 
-# Although this code should work, it requires the downloading and setting up 
-# of a software called xquartz, which I'm not quite familiar 
-# with the technicalities of. 
+# gg3 <- ggplot(posterior_df, aes(resource, .prediction, group = interaction(participant.id, .draw))) 
+# + geom_jitter() + labs(y = "Proportion allocated to winner") + geom_violin(aes(x = resource, y = prop.allocated), col = "skyblue")
 
+# print(gg3)
 
+# ^ Also, I attempted to overlay a violin plot of the real data instead of a point plot, as this would allow
+# me to visualize the true frequency of the responses at each level of the predictor, and 
+# therefore would give better information and a good idea of why the two posteriors look different.
+# With geom_point, it only shows me the levels of the response where there are responses. 
+# This way, the two response distributions for coaching hours and money look fairly similar, which isn't the case at 
+# all (see "gg_violin"). Although I tried to overlay the violin plot, it still wouldn't work even after
+# a couple hours worth of (attempted) debugging. I'm not sure if this has something to do with the stan
+# package or the way that the code puts the plot together, but I would've much preferred such a plot. 
