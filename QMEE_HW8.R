@@ -53,6 +53,8 @@ make_stancode(prop.allocated ~ resource + participant.gender + (1|participant.id
 
 # ^ checking that the priors made it into my stan code (they did)
 
+# Now using the function that Ben showed in lecture on Thursday test the prior I made.
+
 test_prior <- function(p) {
   capture.output(
     b <- brm(form1, WLdata_long, prior = b_prior,
