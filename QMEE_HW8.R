@@ -187,7 +187,9 @@ print(gg2)
 gg_violin <- ggplot(WLdata_long, aes(x = resource, y = prop.allocated)) + geom_violin()
 print(gg_violin)
 
-# gg3 <- ggplot(posterior_df, aes(resource, .prediction, group = interaction(participant.id, .draw))) + geom_jitter() + labs(y = "Proportion allocated to winner") + geom_violin(aes(x = resource, y = prop.allocated), col = "skyblue")
+# gg3 <- ggplot(posterior_df, aes(resource, .prediction, group = interaction(participant.id, .draw))) 
+# + geom_jitter() + labs(y = "Proportion allocated to winner") 
+# + geom_violin(aes(x = resource, y = prop.allocated), col = "skyblue")
 
 
 # print(gg3)
