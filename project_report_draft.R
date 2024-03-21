@@ -90,3 +90,4 @@ summary(emmean_allocation)
 plot(emmean_allocation) + xlim(-1,1.1) + geom_vline(xintercept = 0, lty = 3) +  
   labs(x = "Log odds of proportion of resource allocated to winners", y = "")
 
+print(emmean_allocation)
